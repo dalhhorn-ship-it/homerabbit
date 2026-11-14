@@ -50,6 +50,15 @@ export function App() {
 
   if (me === undefined) return <p className="hr-loading">Loading…</p>;
 
+  // A temporary password must be replaced before anything else, including an invite link.
+  if (me?.mustChangePassword) {
+    return (
+      <Shell me={me} navigate={navigate} logout={logout}>
+        <ChangePassword onDone={afterAuth} />
+      </Shell>
+    );
+  }
+
   if (path === "/invite") {
     return (
       <Shell me={me} navigate={navigate} logout={logout}>
@@ -71,14 +80,6 @@ export function App() {
             <LoginForm onDone={afterAuth} switchTo={() => navigate("/signup")} />
           </Card>
         )}
-      </Shell>
-    );
-  }
-
-  if (me.mustChangePassword) {
-    return (
-      <Shell me={me} navigate={navigate} logout={logout}>
-        <ChangePassword onDone={afterAuth} />
       </Shell>
     );
   }

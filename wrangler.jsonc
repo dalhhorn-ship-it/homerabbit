@@ -1,7 +1,7 @@
 {
   // Production Worker. Preview is the `preview` env below (separate Worker, separate data).
-  // The database ids are PLACEHOLDERS: create the databases in the Cloudflare dashboard and paste the ids
-  // (docs/RUNNING.md, "Data setup"). Ids are not secrets. Production and preview must never share a resource.
+  // Database ids are not secrets (docs/RUNNING.md, "Data setup"). Production and preview must never share a resource.
+  // No R2 (free plan, no card): photos are stored in D1 (HR-3).
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "homerabbit",
   "main": "src/worker/index.ts",
@@ -19,8 +19,6 @@
       "migrations_dir": "migrations"
     }
   ],
-  // Photos arrive with HR-3; the bucket is bound now so the setup is done once. Private: no public/r2.dev access.
-  "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "homerabbit-photos" }],
   "env": {
     "preview": {
       "name": "homerabbit-preview",
@@ -31,8 +29,7 @@
           "database_id": "7120b60c-953e-4005-900c-b7db4c1a7fb6",
           "migrations_dir": "migrations"
         }
-      ],
-      "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "homerabbit-photos-preview" }]
+      ]
     }
   }
 }

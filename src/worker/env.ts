@@ -19,8 +19,6 @@ export interface D1 {
 
 export interface Bindings {
   DB: D1;
-  /** Private photo bucket (HR-3); unused until then. */
-  PHOTOS: unknown;
 }
 
 export interface Session {

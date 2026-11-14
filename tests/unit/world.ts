@@ -48,7 +48,7 @@ export async function createWorld(): Promise<World> {
     if (opts.cookie) headers.Cookie = opts.cookie;
     if (opts.body !== undefined) headers["Content-Type"] = "application/json";
     const init = { method, headers, body: opts.body === undefined ? undefined : JSON.stringify(opts.body) };
-    return Promise.resolve(app.request(path, init, { DB: db, PHOTOS: {} }));
+    return Promise.resolve(app.request(path, init, { DB: db }));
   };
   return { db, mf, call, close: () => mf.dispose() };
 }

@@ -57,8 +57,9 @@ export function createAuthService(db: D1) {
     return token;
   }
 
-  async function blocked(keys: string[]): Promise<Failure | null> {
-    const wait = await limits.retryAfterSeconds(db, keys, Date.now());
+  /** Reserves one attempt on each key (one atomic upsert per key) before any hashing; a 429 when one is locked. */
+  async function reserve(reservations: limits.Reservation[]): Promise<Failure | null> {
+    const wait = await limits.reserveAll(db, reservations, Date.now());
     return wait > 0 ? fail(429, MSG.limited, wait) : null;
   }
 
@@ -71,9 +72,8 @@ export function createAuthService(db: D1) {
       ip: string;
     }): Promise<Identified | Failure> {
       const ipKey = await limits.limitKey("signup", input.ip);
-      const limited = await blocked([ipKey]);
+      const limited = await reserve([[ipKey, SIGNUP_SOURCE]]);
       if (limited) return limited;
-      await limits.count(db, ipKey, SIGNUP_SOURCE, Date.now());
 
       if (typeof input.email !== "string" || typeof input.password !== "string") return fail(400, MSG.signup);
       const email = normalizeEmail(input.email);
@@ -113,18 +113,17 @@ export function createAuthService(db: D1) {
       const email = typeof input.email === "string" ? normalizeEmail(input.email) : "";
       const password = typeof input.password === "string" ? input.password : "";
       const keys = [await limits.limitKey("login-email", email), await limits.limitKey("login-ip", input.ip)];
-      const limited = await blocked(keys);
+      const limited = await reserve([
+        [keys[0], LOGIN_EMAIL],
+        [keys[1], LOGIN_SOURCE],
+      ]);
       if (limited) return limited;
 
       const user = email ? await store.findUserByEmail(db, email) : null;
       const good = await verifyPassword(password.slice(0, 1024), user?.password_hash ?? DUMMY_HASH);
-      if (!user || !good) {
-        const now = Date.now();
-        await limits.count(db, keys[0], LOGIN_EMAIL, now);
-        await limits.count(db, keys[1], LOGIN_SOURCE, now);
-        return fail(401, MSG.login);
-      }
+      if (!user || !good) return fail(401, MSG.login); // the attempt is already counted
       await limits.clear(db, keys[0]);
+      await limits.release(db, keys[1]);
       return {
         ok: true,
         token: await startSession(user.id),
@@ -166,15 +165,15 @@ export function createAuthService(db: D1) {
       ip: string;
     }): Promise<Identified | Failure> {
       const ipKey = await limits.limitKey("account-ip", input.ip);
-      const limited = await blocked([ipKey]);
+      const limited = await reserve([[ipKey, ACCOUNT_SOURCE]]);
       if (limited) return limited;
       const user = await store.findUserById(db, input.userId);
       if (!user || typeof input.current !== "string" || typeof input.next !== "string")
         return fail(400, "Invalid request.");
       if (!(await verifyPassword(input.current.slice(0, 1024), user.password_hash))) {
-        await limits.count(db, ipKey, ACCOUNT_SOURCE, Date.now());
         return fail(403, "Current password is wrong.");
       }
+      await limits.release(db, ipKey);
       const problem = validatePassword(input.next, user.email);
       if (problem) return fail(400, problem);
       if (input.next === input.current) return fail(400, "Choose a password you have not used just now.");
@@ -198,16 +197,14 @@ export function createAuthService(db: D1) {
 
     async acceptInvite(input: { userId: string; token: unknown; ip: string }): Promise<{ ok: true } | Failure> {
       const ipKey = await limits.limitKey("account-ip", input.ip);
-      const limited = await blocked([ipKey]);
+      const limited = await reserve([[ipKey, ACCOUNT_SOURCE]]);
       if (limited) return limited;
       const token = typeof input.token === "string" && input.token.length <= 200 ? input.token : "";
       const result = token
         ? await store.acceptInvite(db, input.userId, await sha256Hex(token), iso(Date.now()))
         : "invalid";
-      if (result === "invalid") {
-        await limits.count(db, ipKey, ACCOUNT_SOURCE, Date.now());
-        return fail(400, MSG.invite);
-      }
+      if (result === "invalid") return fail(400, MSG.invite);
+      await limits.release(db, ipKey);
       if (result === "conflict") {
         return fail(
           409,

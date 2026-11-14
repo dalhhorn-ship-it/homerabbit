@@ -1,6 +1,7 @@
 # 0013 — Stack, auth and data model: one Worker, React + Carbon, D1 + private R2, own login
 
 > Status: accepted · Date: 2026-11-14
+> Amendment (HR-1 fix round): the Cloudflare free plan has no R2 without a card, so there is no R2 bucket or binding; photos (HR-3) are stored in D1 (the R2 and `r2_key` wording below is superseded; HR-3 sets the exact photo schema and limits). Rate limits are one atomic SQL upsert reserved before the hash.
 
 ## Context
 homerabbit (docs/GOAL.md, ADR 0012 amendment): public sign-up with email + password, one household per account,

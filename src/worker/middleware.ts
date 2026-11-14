@@ -19,6 +19,12 @@ export const clearSessionCookie = (c: Context) => deleteCookie(c, COOKIE, { path
 
 export const clientIp = (c: Context): string => c.req.header("CF-Connecting-IP") ?? "unknown";
 
+/** Nothing under /api is ever cached by the browser or an intermediary: responses are per user (and may set cookies). */
+export const noStore: MiddlewareHandler<AppEnv> = async (c, next) => {
+  await next();
+  c.header("Cache-Control", "no-store");
+};
+
 export const services: MiddlewareHandler<AppEnv> = async (c, next) => {
   if (c.env?.DB) c.set("auth", createAuthService(c.env.DB)); // /api/health runs without bindings in unit tests
   await next();

@@ -67,5 +67,6 @@ factory.json defaults kept: full tests ≤ 120 s, affected ≤ 30 s, push-to-liv
 ## Deviations from path defaults
 - Rigor L2 + two L3 items instead of full L3 (reason above).
 - HR-0 has no locked acceptance suite (test-writer + admission): it creates the toolchain the suite needs. Its PRD criteria are covered by the developer's e2e tests and manual checks; the locked suite starts with HR-1.
+- Acceptance suite (locked, tests/acceptance/): run `python3 scripts/acceptance.py run` (or `python3 -m unittest tests/acceptance/accounts-and-households/test_vitest_suite.py`). `factory.json` `acceptance.command` stays empty: acceptance.py then runs the `test_*.py` unittest wrappers under `tests/acceptance`, which call Vitest per criterion; gate.py runs that same command. `commands.test` excludes it. `acceptance.py baseline` is written by `test-writer` only.
 - Own authentication (user choice over Cloudflare Access): password hashing, sessions, brute-force limits and
   household isolation are ours to get right; covered by TDD, the isolation test and the pre-release security audit.

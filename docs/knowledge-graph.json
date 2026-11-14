@@ -1,7 +1,7 @@
 {"generated_by": "scripts/docs_index.py", "code_graph": "codegraph (docs/CODEMAP.md)",
  "nodes": [
   {"id": "CLAUDE.md", "title": "CLAUDE.md", "lines": 40, "summary": "Always-loaded instructions. Keep short and stable (it is paid every turn). Details live\u2026"},
-  {"id": "docs/BACKLOG.md", "title": "Backlog", "lines": 27, "summary": "Milestones and work items; the dashboard reads this file. Seeded by `choose-path`,\u2026"},
+  {"id": "docs/BACKLOG.md", "title": "Backlog", "lines": 28, "summary": "Milestones and work items; the dashboard reads this file. Seeded by `choose-path`,\u2026"},
   {"id": "docs/GOAL.md", "title": "Goal", "lines": 75, "summary": "The agreed goal for this project. Agreed with the user on 2026-11-14 (brainstorm). Keep\u2026"},
   {"id": "docs/OPERATING-MODEL.md", "title": "Operating model", "lines": 72, "summary": "How this project is built: chosen path(s), rigor, agents, practices, gates, budgets.\u2026"},
   {"id": "docs/RUNNING.md", "title": "Running and deploying homerabbit", "lines": 53, "summary": "Run locally; Cloudflare setup."},
@@ -65,6 +65,7 @@
   {"id": "docs/specs/security-hardening-audit-1.md", "title": "PRD: Security hardening after audit run-1", "lines": 82, "summary": "Status: approved \u00b7 2026-11-07 \u00b7 by user in chat \u00b7 Owner: product-manager \u00b7 Backlog:\u2026"},
   {"id": "docs/specs/size-monitoring.md", "title": "PRD: Size monitoring (is the template still fit for purpose?)", "lines": 49, "summary": "Status: approved \u00b7 2026-11-14 \u00b7 by user in chat (\"Overall evaluate how large this\u2026"},
   {"id": "docs/specs/template-mode.md", "title": "PRD: Template mode (the template repo knows it is the template)", "lines": 62, "summary": "Status: approved by user in chat 2026-11-07 \u00b7 2026-11-07 \u00b7 Owner: product-manager \u00b7\u2026"},
+  {"id": "docs/specs/template-tests-in-projects.md", "title": "PRD: Template self-test that works inside a real project", "lines": 44, "summary": "Status: draft (awaiting user approval) \u00b7 2026-11-14 \u00b7 Owner: product-manager \u00b7 Backlog:\u2026"},
   {"id": "docs/specs/upstream-from-lpdan-2026-11.md", "title": "PRD: Upstream from lpdan: two lost security protections and `docs_index.py --related`", "lines": 24, "summary": "Status: approved \u00b7 2026-11-11 \u00b7 by user in chat (\"Ok plz do\", in the lpdan session,\u2026"},
   {"id": "docs/specs/walking-skeleton.md", "title": "PRD: Walking skeleton (live app, empty board, CI)", "lines": 69, "summary": "Status: approved \u00b7 2026-11-14 \u00b7 by user in chat \u00b7 Revised 2026-11-14 (Access dropped) \u00b7\u2026"}
  ],
@@ -83,6 +84,7 @@
   {"from": "docs/BACKLOG.md", "to": "docs/GOAL.md"},
   {"from": "docs/BACKLOG.md", "to": "docs/OPERATING-MODEL.md"},
   {"from": "docs/BACKLOG.md", "to": "docs/specs/accounts-and-households.md"},
+  {"from": "docs/BACKLOG.md", "to": "docs/specs/template-tests-in-projects.md"},
   {"from": "docs/BACKLOG.md", "to": "docs/specs/walking-skeleton.md"},
   {"from": "docs/OPERATING-MODEL.md", "to": "docs/BACKLOG.md"},
   {"from": "docs/OPERATING-MODEL.md", "to": "docs/GOAL.md"},
@@ -280,6 +282,8 @@
   {"from": "docs/specs/template-mode.md", "to": "docs/BACKLOG.md"},
   {"from": "docs/specs/template-mode.md", "to": "docs/GOAL.md"},
   {"from": "docs/specs/template-mode.md", "to": "docs/TECH-DEBT.md"},
+  {"from": "docs/specs/template-tests-in-projects.md", "to": "docs/TECH-DEBT.md"},
+  {"from": "docs/specs/template-tests-in-projects.md", "to": "docs/operating-model/LEARNINGS.md"},
   {"from": "docs/specs/walking-skeleton.md", "to": "docs/GOAL.md"},
   {"from": "docs/specs/walking-skeleton.md", "to": "docs/decisions/0013-stack-and-data-model.md"},
   {"from": "docs/specs/walking-skeleton.md", "to": "docs/policies/security.md"}

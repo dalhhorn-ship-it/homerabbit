@@ -24,7 +24,7 @@
 | File | Lines | Summary |
 |---|---:|---|
 | CLAUDE.md | 40 | Always-loaded instructions. Keep short and stable (it is… |
-| docs/BACKLOG.md | 27 | Milestones and work items; the dashboard reads this file.… |
+| docs/BACKLOG.md | 28 | Milestones and work items; the dashboard reads this file.… |
 | docs/GOAL.md | 75 | The agreed goal for this project. Agreed with the user on… |
 | docs/OPERATING-MODEL.md | 72 | How this project is built: chosen path(s), rigor, agents,… |
 | docs/RUNNING.md | 53 | Run locally; Cloudflare setup. |
@@ -88,5 +88,6 @@
 | docs/specs/security-hardening-audit-1.md | 82 | Status: approved · 2026-11-07 · by user in chat · Owner:… — sections: Problem:5, Goal and success…:8, Users and user stories:11, Scope:17, Non-goals:30, Acceptance criteria:37, UX / behaviour notes:53, Risks and assumptions:58, Effort and sequencing:65, Decisions at…:68, Open questions:76 |
 | docs/specs/size-monitoring.md | 49 | Status: approved · 2026-11-14 · by user in chat ("Overall… |
 | docs/specs/template-mode.md | 62 | Status: approved by user in chat 2026-11-07 · 2026-11-07 ·… |
+| docs/specs/template-tests-in-projects.md | 44 | Status: draft (awaiting user approval) · 2026-11-14 ·… |
 | docs/specs/upstream-from-lpdan-2026-11.md | 24 | Status: approved · 2026-11-11 · by user in chat ("Ok plz… |
 | docs/specs/walking-skeleton.md | 69 | Status: approved · 2026-11-14 · by user in chat · Revised… |

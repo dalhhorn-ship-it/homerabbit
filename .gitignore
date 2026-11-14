@@ -33,3 +33,9 @@ metrics/eval-transcripts/
 metrics/gate.local.jsonl
 metrics/guard.local.jsonl
 metrics/LEARN.md
+
+# node app
+dist/
+tsconfig.tsbuildinfo
+test-results/
+playwright-report/

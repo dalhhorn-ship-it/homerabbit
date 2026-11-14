@@ -1,0 +1,58 @@
+@use "@carbon/react/scss/config" with (
+  $css--font-face: false
+);
+@use "@carbon/react/scss/themes";
+@use "@carbon/react/scss/theme" with (
+  $theme: themes.$g10
+);
+@use "@carbon/react/scss/reset";
+@use "@carbon/react/scss/type";
+@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/components/ui-shell/header";
+
+:root {
+  @include theme.theme();
+}
+
+body {
+  background: theme.$background;
+  color: theme.$text-primary;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.hr-main {
+  padding: 3rem $spacing-05 0;
+  height: 100dvh;
+  box-sizing: border-box;
+}
+
+.hr-board {
+  display: flex;
+  gap: $spacing-05;
+  height: 100%;
+  padding: $spacing-05 0;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  box-sizing: border-box;
+}
+
+.hr-column {
+  flex: 1 0 16rem;
+  scroll-snap-align: start;
+  background: theme.$layer-01;
+  border: 1px solid theme.$border-subtle-01;
+  padding: $spacing-05;
+  min-width: 0;
+}
+
+.hr-column__title {
+  @include type.type-style("heading-02");
+  margin: 0 0 $spacing-03;
+}
+
+.hr-column__empty {
+  @include type.type-style("body-compact-01");
+  color: theme.$text-secondary;
+  margin: 0;
+}

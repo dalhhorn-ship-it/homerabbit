@@ -4,11 +4,11 @@
 
 ## Path and rigor
 - Primary path: **software-product** (docs/operating-model/paths/software-product.md). No secondary path.
-- Rigor: **L2 standard, plus two L3 items**. The tree says L3 (home photos on the public internet), but the
+- Rigor: **L2 standard, plus two L3 items**. The tree says L3 (home photos on the public internet, public sign-up), but the
   app has 2 users, no money and no regulated data, so full L3 ceremony is not worth it. Kept from L3:
   1. `security-audit-run` before the first real release (M1 live for daily use);
-  2. an automated privacy test: requests without a valid Cloudflare Access identity of an allowed member
-     get no item data and no photo bytes.
+  2. an automated isolation test: no request without a valid session, and no request from household A,
+     returns household B's items, rooms or photo bytes (ADR 0012 amendment).
 
 ## Agents and skills
 Roster (factory.json `agents.roster`): product-manager, software-architect, test-writer, developer, code-writer,
@@ -32,7 +32,7 @@ Autonomy mode: **off** (`autonomy.enabled` false; the pack files came with the t
 
 ## Practices and habits
 - PRD gate (docs/policies/prd-approval.md): no code without an approved PRD in docs/specs/.
-- Walking skeleton first: Access-protected app, empty board, live URL, CI green.
+- Walking skeleton first: app live, empty board, live URL, CI green; accounts and households next (HR-1).
 - One vertical slice per backlog item; each gets a preview URL the user can open on the phone.
 - TDD for domain logic (ranking score, progress counts, overdue rule); thin component tests; a few Playwright flows.
 - UI follows IBM Carbon (light theme, `@carbon/react`); touch targets ≥ 44 px; test on Chrome for iOS.
@@ -50,15 +50,15 @@ test, test_affected, coverage, lint, build. Deploy is git-only (no deploy comman
 ## Quality gates
 - [ ] merge gate `python3 scripts/gate.py` passes (tests, lint, protected paths, security scan; no new skips)
 - [ ] coverage ≥ 80% on domain code, no drop > 2 pts
-- [ ] privacy test green (no data or photos without an allowed Access identity)
+- [ ] isolation test green (no data or photos without a session, none across households)
 - [ ] preview URL smoke-tested (incl. phone viewport) before merge
 - [ ] reviewer verdict `ship`; docs-sync done
 - [ ] before first daily-use release: `security-audit-run` with no open High/Critical
 
 ## Deploy
 Cloudflare via git (`ship` skill), route A (dashboard Git integration), production branch `main`, preview URL per
-branch. Login by **Cloudflare Access, email one-time PIN**, allow-list of the two household emails (kept in the
-Cloudflare dashboard, not in git). Storage expected: D1 (items), R2 (photos, private). Target cost €0 (free tiers).
+branch. Login: our own email + password accounts with public sign-up and households (ADR 0012 amendment,
+design in ADR 0013); secrets (session signing key) only in Cloudflare secrets, never git. Storage expected: D1 (items), R2 (photos, private). Target cost €0 (free tiers).
 Rollback: redeploy the previous version from the Cloudflare dashboard, or revert the commit on main.
 
 ## Budgets
@@ -66,5 +66,5 @@ factory.json defaults kept: full tests ≤ 120 s, affected ≤ 30 s, push-to-liv
 
 ## Deviations from path defaults
 - Rigor L2 + two L3 items instead of full L3 (reason above).
-- No in-app authentication: Cloudflare Access does login; the app trusts and verifies the Access JWT. Fewer moving
-  parts and nothing for us to keep secure on passwords.
+- Own authentication (user choice over Cloudflare Access): password hashing, sessions, brute-force limits and
+  household isolation are ours to get right; covered by TDD, the isolation test and the pre-release security audit.

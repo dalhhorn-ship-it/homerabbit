@@ -23,3 +23,11 @@ one-time PIN (user choice, 2026-11-14), allow-list of the two emails in the Clou
 - No password handling in our code; the app must validate the Access JWT and reject everything else.
 - Stack details (React + @carbon/react, Workers, D1, R2) still to be confirmed by `software-architect` in an ADR.
 - Measure: tests ≤ 120 s, push-to-live ≤ 180 s, domain coverage ≥ 80%, running cost €0–5/month.
+
+## Amendment 2026-11-14 — own email + password login, public sign-up, households
+The user found Cloudflare Access too cumbersome and chose a normal email + password login with a public
+sign-up page; each account gets its own household, partners join by invite. This replaces the Access login
+above. Consequences: we own password hashing, sessions, brute-force limits and household isolation; the L3
+privacy test becomes a cross-household isolation test (no request from household A returns household B's
+items, rooms or photo bytes). Rigor stays L2 + the two L3 items (security audit before daily-use release).
+Design in docs/decisions/0013-stack-and-data-model.md.

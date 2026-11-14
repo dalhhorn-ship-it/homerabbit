@@ -13,9 +13,10 @@ Roadmap tab: item order here is the proposed sequence (numbered 1..N across both
 - [ ] SET-3 Test command and CI green (S) #quality
 
 ## Milestone: M1 — Capture, rank, kanban, progress (target: )
-> Sequence: login first (photos are private), then capture, then ranking and board, then progress. Each item needs an approved PRD before build.
-- [ ] HR-0 Walking skeleton: stack ADR (architect), app behind Cloudflare Access email login, empty board, live URL, CI green (M) #foundation
-- [ ] HR-1 Privacy: app verifies the Access identity, only the two allowed emails see items and photos; privacy test (S) #security
+> Sequence: skeleton, then accounts and households (everything is private per household), then rooms and capture, then ranking and board, then progress. Each item needs an approved PRD before build.
+- [ ] HR-0 Walking skeleton: stack ADR 0013, app live on Cloudflare, empty board in Carbon light, CI green (docs/specs/walking-skeleton.md) (M) #foundation
+- [ ] HR-1 Accounts and households: public sign-up (email + password), login, 90-day sessions, logout, own household per account, invite link for the partner, password reset without email, brute-force limits, cross-household isolation test (L) #security
+- [ ] HR-8 Rooms: create/rename/delete rooms per household, link a chore to a room, filter board and list by room (S)
 - [ ] HR-2 Create/edit item by text with fields: title, description, T-shirt size, owner, deadline, urgency, impact (M)
 - [ ] HR-3 Photo capture: attach one or more photos from camera or gallery, private storage, works on iPhone/iPad (M)
 - [ ] HR-4 Ranked backlog: score from urgency × impact with size boost, drag to override (M)

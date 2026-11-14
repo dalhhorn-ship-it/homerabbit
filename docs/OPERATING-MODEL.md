@@ -32,6 +32,7 @@ Autonomy mode: **off** (`autonomy.enabled` false; the pack files came with the t
 
 ## Practices and habits
 - PRD gate (docs/policies/prd-approval.md): no code without an approved PRD in docs/specs/.
+- STANDING PERMISSION (user, 2026-11-14): the agent may fast-forward `main` to the verified branch head after `python3 scripts/gate.py` PASSES on that exact sha and the reviewer said `ship`. Never on a failed or flaky gate run.
 - Walking skeleton first: app live, empty board, live URL, CI green; accounts and households next (HR-1).
 - One vertical slice per backlog item; each gets a preview URL the user can open on the phone.
 - TDD for domain logic (ranking score, progress counts, overdue rule); thin component tests; a few Playwright flows.

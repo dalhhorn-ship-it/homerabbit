@@ -1,6 +1,6 @@
 # 0013 — Stack, auth and data model: one Worker, React + Carbon, D1 + private R2, own login
 
-> Status: proposed · Date: 2026-11-14
+> Status: accepted · Date: 2026-11-14
 
 ## Context
 homerabbit (docs/GOAL.md, ADR 0012 amendment): public sign-up with email + password, one household per account,
@@ -90,7 +90,7 @@ stripped by re-encoding; one multipart POST per photo, Worker checks JPEG magic 
 file under `src/worker/routes/` mentions `env.DB`, `.prepare(` or `env.PHOTOS`.
 
 **API:** public `POST /api/auth/signup {email, password, displayName, inviteToken?}`, `POST /api/auth/login`; with a
-session `POST /api/auth/logout`, `GET /api/me` (user, household, members), `POST /api/me/password`,
+session `POST /api/auth/logout`, `GET /api/me` (user, household, members, mustChangePassword), `PATCH /api/household {name}` (any member renames), `POST /api/me/password`,
 `GET|POST /api/invites`, `DELETE /api/invites/:id`, `POST /api/invites/accept`,
 `POST /api/members/:id/reset-password`, `GET|POST /api/rooms`, `PATCH|DELETE /api/rooms/:id`, `GET|POST /api/items`,
 `PATCH|DELETE /api/items/:id`, `POST /api/items/:id/photos`, `GET|DELETE /api/photos/:id`. Room filter is client-side.
@@ -113,8 +113,7 @@ Coverage: `@vitest/coverage-istanbul`, include `src/domain/**`, `src/worker/auth
 - test: `npx vitest run` (projects `unit` + `worker`) · test_affected: `npx vitest run --changed main`
 - coverage: `npx vitest run --coverage` · lint: `npx tsc -b --noEmit && npx biome check .` · build: `npx vite build`
 - e2e (manual/merge, not in `test`): `npx playwright test`
-- Workers Builds: build `npm ci && npx vite build`; production deploy `npx wrangler d1 migrations apply DB --remote &&
-  npx wrangler deploy`; branch builds `CLOUDFLARE_ENV=preview` against the preview Worker (exact command from S1).
+- Workers Builds (as run on the user's account, only the deploy command executes): production `npx vite build && npx wrangler d1 migrations apply DB --remote && npx wrangler deploy`; branch builds with `CLOUDFLARE_ENV=preview`: `npx vite build && npx wrangler d1 migrations apply DB --remote && npx wrangler versions upload` (docs/RUNNING.md).
 
 ## Consequences
 - Easier: one deployable, one auth path for data and photos, isolation in one module and checked in the database.
@@ -129,3 +128,13 @@ Coverage: `@vitest/coverage-istanbul`, include `src/domain/**`, `src/worker/auth
   on `http://localhost` in Playwright WebKit (fallback: HTTPS dev server).
 - Answered by user 2026-11-14: sliding 90-day session (renewed with use); min length stays 10; sign-up without
   email verification is fine for M1; account deletion / leaving a household not in M1.
+
+## Deviations
+- **Tests:** no `tests/worker` pool. Worker and isolation tests run in Node with Miniflare D1 (`miniflare` is an explicit devDependency): `tests/unit` (own flows, coverage) and the locked acceptance suite (`tests/acceptance/accounts-and-households`, including the isolation test over `app.routes`). `@cloudflare/vitest-pool-workers` is not used; coverage (istanbul) covers `src/domain`, `src/worker/auth`, `src/worker/repo.ts` from the unit project.
+- **CSRF:** an own Origin check (`sameOrigin` middleware, every non-GET/HEAD needs `Origin` equal to the app origin) replaces Hono `csrf()`, which only inspects form content types. Cookie flags as decided; `__Host-` + Secure works on `http://localhost` in Chromium (S6 cookie half; WebKit unverified, TD-030). PBKDF2 CPU on a free-plan Worker (S6 first half) is unmeasured until deployed.
+- **Anonymous = 401** for every `/api/*` path except health, sign-up and login, including unknown paths (PRD A5). Duplicate sign-up answers like every other sign-up failure (PRD A1), superseding "email already registered".
+- **Limits:** counters live in `auth_attempts` with an added `locked_until` column (lock runs 15 minutes from the failure that reached the limit); email keys are stored as SHA-256. The sign-up limit counts every attempt (5/IP/hour); accept and password-change count failures (10/IP/15 min).
+- **Sessions:** renewed (sliding) on use once more than one day of the lifetime is gone, to save a write per request. Password change or reset ends all the user's sessions; the changing device gets a fresh one.
+- **Invites:** the has-data check looks for `rooms`/`items` tables by name at run time because those migrations arrive later (TD-029). Users of a household with other members also get 409.
+- **Deploy:** Workers Builds runs only the deploy command on this account, so build and migration moved into it (see Commands).
+

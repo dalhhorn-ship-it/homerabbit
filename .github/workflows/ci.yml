@@ -28,6 +28,11 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         # TEST_SUMMARY: check.sh (the structure step) appends per-set test timings to the step summary; full suite, nothing skipped
         run: TEST_SUMMARY="$GITHUB_STEP_SUMMARY" python3 scripts/gate.py --base "$BASE" --summary "$GITHUB_STEP_SUMMARY"
+      - name: End-to-end tests (Playwright at 390x844 and 820x1180; builds, migrates a local D1, serves the Worker)
+        # TD-025: runs after the gate so a gate failure is reported first; Chromium installed here, not in the repo
+        run: |
+          npx playwright install chromium --with-deps
+          npx playwright test
       - name: New-project smoke (bootstrap a temp copy: check.sh, gate, pack add against a local stand-in remote)
         # the fast part of this module runs in the suite above; this adds the slow half (NEW-3)
         run: NEW_PROJECT_SMOKE=1 PYTHONPATH=.factory/tests python3 -W ignore::ResourceWarning -m unittest -q test_new_project_smoke

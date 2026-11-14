@@ -8,6 +8,7 @@ import {
   is2xx,
   isRefusal,
   login,
+  MINUTE,
   newPerson,
   SESSION_COOKIE,
   signUp,
@@ -121,14 +122,18 @@ test("test_c3_wrong_password_and_unknown_email_are_indistinguishable", async () 
   expect(unknown.headers.getSetCookie().length).toBe(0);
 });
 
-test("test_c3_signup_with_existing_email_is_refused_and_changes_nothing", async () => {
-  // The wording of this refusal is an open question (tests/acceptance/manifest.json); only the behaviour is checked.
+test("test_c3_signup_with_existing_email_is_refused_and_looks_like_other_signup_errors", async () => {
   const p = await newPerson(w, "c3dup");
   const intruder = new Client(w);
-  const res = await signUp(intruder, p.email, strongPw());
-  expect(isRefusal(res), `status ${res.status}`).toBe(true);
+  const dup = await signUp(intruder, p.email, strongPw());
+  expect(isRefusal(dup), `status ${dup.status}`).toBe(true);
   expect(intruder.hasSession()).toBe(false);
-  // The original account still works with its own password.
+  expect(dup.text).toMatch(/could not create account/i);
+  // Same status and body as another sign-up failure (an invalid invite) for a fresh email.
+  const other = await signUp(new Client(w), uniqueEmail("c3other"), strongPw(), { inviteToken: "x".repeat(43) });
+  expect(isRefusal(other), `status ${other.status}`).toBe(true);
+  expect(dup.status).toBe(other.status);
+  expect(dup.text).toBe(other.text);
   expect(is2xx(await login(new Client(w), p.email, p.pw))).toBe(true);
 });
 
@@ -159,4 +164,36 @@ test("test_c4_lockout_of_one_email_does_not_affect_another", async () => {
   const b = await newPerson(w, "c4b");
   for (let i = 0; i < 6; i++) await login(new Client(w), a.email, strongPw());
   expect(is2xx(await login(new Client(w), b.email, b.pw))).toBe(true);
+});
+
+test("test_c4_lockout_lasts_fifteen_minutes", async () => {
+  const clock = startClock();
+  const p = await newPerson(w, "c4rec");
+  for (let i = 0; i < 5; i++) await login(new Client(w), p.email, strongPw());
+  expect((await login(new Client(w), p.email, p.pw)).status).toBe(429);
+  clock.advance(14 * MINUTE);
+  expect((await login(new Client(w), p.email, p.pw)).status, "still locked at 14 minutes").toBe(429);
+  clock.advance(MINUTE + 5_000);
+  const ok = await login(new Client(w), p.email, p.pw);
+  expect(is2xx(ok), `after 15 minutes: ${ok.status}`).toBe(true);
+});
+
+test("test_c4_fifty_failures_from_one_source_lock_that_source", async () => {
+  const ip = "203.0.113.77";
+  const p = await newPerson(w, "c4src");
+  for (let i = 0; i < 50; i++) await login(new Client(w, ip), uniqueEmail("c4x"), strongPw());
+  const res = await login(new Client(w, ip), p.email, p.pw);
+  expect(res.status).toBe(429);
+  expect(is2xx(await login(new Client(w), p.email, p.pw)), "other sources unaffected").toBe(true);
+});
+
+test("test_c1_member_can_rename_the_household", async () => {
+  const p = await newPerson(w, "c1ren");
+  const other = await newPerson(w, "c1reno");
+  const name = `Renamed ${Math.random().toString(36).slice(2, 8)}`;
+  const res = await p.client.send("PATCH", "/api/household", { name });
+  expect(is2xx(res), `status ${res.status}: ${res.text}`).toBe(true);
+  expect((await p.client.get("/api/me")).text).toContain(name);
+  expect((await other.client.get("/api/me")).text).not.toContain(name);
+  expect((await new Client(w).send("PATCH", "/api/household", { name })).status).toBe(401);
 });

@@ -200,8 +200,7 @@ test("test_c8_anonymous_visitor_cannot_reach_any_b_resource", async () => {
       const path = id ? fill(r.path, id) : r.path;
       const res = await anon.send(r.method, path, withBody ? { id: f.bIds[0], householdId: f.bIds[0] } : undefined);
       const label = `anonymous ${r.method} ${path}`;
-      expect(is2xx(res), `${label}: status ${res.status}`).toBe(false);
-      if (id) expect([401, 404].includes(res.status), `${label}: status ${res.status}`).toBe(true);
+      expect(res.status, label).toBe(401);
       expectNoLeak(label, res, f);
       probed++;
     }

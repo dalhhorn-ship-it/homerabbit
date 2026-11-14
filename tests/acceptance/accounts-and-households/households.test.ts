@@ -203,9 +203,17 @@ test("test_c7_member_reset_gives_temporary_password_and_ends_all_old_sessions", 
   const fresh = new Client(w);
   const lg = await login(fresh, bob.email, temp as string);
   expect(is2xx(lg), `temporary password must log in: ${lg.status} ${lg.text}`).toBe(true);
-  // Until a new password is chosen, the app is not usable beyond /api/me and the password change.
-  const gated = await fresh.get("/api/invites");
-  expect(is2xx(gated), "must change password before anything else").toBe(false);
+  // A2: the next login forces a new password before anything else.
+  const meTemp = await fresh.get("/api/me");
+  expect(meTemp.status).toBe(200);
+  expect(meTemp.json?.mustChangePassword, "GET /api/me reports mustChangePassword: true").toBe(true);
+  expect(is2xx(await fresh.get("/api/invites")), "other routes refuse until a new password is set").toBe(false);
+  const newPw = strongPw();
+  const change = await fresh.post("/api/me/password", { currentPassword: temp, newPassword: newPw });
+  expect(is2xx(change), `password change: ${change.status} ${change.text}`).toBe(true);
+  expect(is2xx(await fresh.get("/api/invites")), "usable after choosing a new password").toBe(true);
+  expect(is2xx(await login(new Client(w), bob.email, newPw))).toBe(true);
+  expect(is2xx(await login(new Client(w), bob.email, temp as string)), "temporary password stops working").toBe(false);
 
   expect((await alice.client.get("/api/me")).status, "the resetting member is untouched").toBe(200);
 });

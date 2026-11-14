@@ -1,33 +1,31 @@
-# Handoff — 2026-11-14 — homerabbit: HR-0 + HR-1 PRDs approved, waiting on ADR 0013 revision, then tests + build
+# Handoff — 2026-11-14 — homerabbit: HR-0 built (review ship), HR-1 acceptance suite being finalised
 
 ## Task
 User (PM, plain words, one recommendation) builds homerabbit: mobile/iPad web app to log home chores (text + photos),
 rooms, rank, kanban (Backlog → Design approach → Preparation → Execution → Delivered), progress by T-shirt size, owner,
-deadline. Chrome (iOS = WebKit), IBM Carbon light (g10). Later: AI plan, budget, materials, batching.
+deadline. Chrome (iOS = WebKit), IBM Carbon light (g10). Own email+password auth, public sign-up, a household per
+account, invite partner. Later: AI plan, budget, materials, batching.
 
 ## State
-- Branch claude/festive-lamport-hl0zt0. phase=build, software-product, L2 + two L3 items (security audit before
-  daily-use release; automated cross-household isolation test). Autonomy pack installed, off.
-- Login decision CHANGED (ADR 0012 amendment): own email + password, PUBLIC sign-up, each account own household,
-  partner joins by invite link, 90-day sessions, reset without email (member or admin command). Rooms = HR-8.
-- Accepted defaults: urgency/impact 1–5; editing them or size clears rank override; Delivered leaves ranked list;
-  workers.dev, no custom domain; column titles fixed.
-- PRDs APPROVED 2026-11-14 by user in chat: docs/specs/walking-skeleton.md (HR-0, `[~]`),
-  docs/specs/accounts-and-households.md (HR-1, after HR-0). HR-1 open-question recommendations accepted with approval:
-  password ≥10 chars, invite 7 days single use, lockout 5/15 min, invitee empty household removed silently, admin
-  reset = documented command.
-- software-architect running in background: revising docs/decisions/0013-stack-and-data-model.md (drop Access, own
-  auth, households, rooms; one Worker + static assets + Hono /api, Vite+React+TS+@carbon/react, D1, R2, Vitest,
-  Playwright 390×844 / 820×1180). Proposed commands: test `npx vitest run`, coverage `npx vitest run --coverage`,
-  lint `npx tsc -b --noEmit && npx biome check .`, build `npx vite build`.
+- Branch claude/festive-lamport-hl0zt0 (main on origin has only the template). L2 + two L3 items.
+- ADR 0013 (accepted design, status proposed) = stack + auth + data model. ADR 0012 amendment = own auth.
+- HR-0 `[~]`: built b8647f2, dfbea03, 5e6afa2; review `ship`; follow-up 7a3d2bc. Stays `[~]` until live on Cloudflare.
+  factory.json commands go through scripts/app.sh (TD-027 medium: skip heuristic; a `CI` override breaks the template
+  bootstrap test in CI — don't add one). e2e not in CI yet (TD-025): add with HR-1.
+- HR-1 PRD approved + answers A1–A6 (768de28). Acceptance tests TS in tests/acceptance/accounts-and-households (12a52df).
+  test-writer (resumed) is adding Python wrappers per criterion (acceptance.py only maps test*.py), aligning tests to
+  the answers, writing INTERFACE.md.
+- WAITING ON USER: Cloudflare repo connect steps (in docs/RUNNING.md) + workers.dev URL; choice (a) PR they merge
+  (recommended) or (b) standing permission to update main.
 
 ## Next steps
-1. When architect reports: commit ADR 0013, set factory.json commands; tell the user any open questions.
-2. L2 policy: acceptance tests per approved PRD before build (test-writer → second reading → acceptance.py admit).
-3. Launch `developer` for HR-0; user connects repo in Cloudflare (Workers Builds, production branch main), sends URL.
-4. Then HR-1 `[~]` → developer. Then PRD for HR-8 rooms, HR-2…
+1. When test-writer reports: second reading = fresh `developer` builds a throwaway HR-1 from PRD + INTERFACE.md in a
+   scratch dir; then `python3 scripts/acceptance.py admit accounts-and-households --reference-dir DIR`; set
+   factory.json acceptance.command; commit.
+2. Mark HR-1 `[~]`; launch `developer` for HR-1 (also: add rename route to ADR 0013, e2e in CI, miniflare devDep).
+3. Then PRD for HR-8 rooms, HR-2 items.
 
 ## Watch out
-- docs/INDEX.md is near its 3000-token budget (test_docs_first.DocBudget); budget must NOT be changed
-  (test_size pins defaults) — trim curated rows / long status lines instead.
-- After test runs: `git checkout HEAD -- metrics/history.jsonl`; check `git remote -v`. Never touch /tmp/code-sign.
+- docs/INDEX.md near 3000-token budget; don't change budgets (test_size pins defaults) — trim curated rows instead.
+- After test runs: `git checkout HEAD -- metrics/history.jsonl metrics/tokens.jsonl`; check `git remote -v`.
+  Never touch /tmp/code-sign.

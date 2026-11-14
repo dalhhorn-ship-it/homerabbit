@@ -5,14 +5,24 @@ fails or if it found no test. Criterion 10 (real devices) has no automated test.
 """
 import os
 import subprocess
+import sys
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
 
+def app_root():
+    """The tree whose Worker is tested: a second-reading dir put on sys.path by acceptance.py, else the project."""
+    for entry in sys.path:
+        if entry and os.path.abspath(entry) != ROOT and os.path.isfile(os.path.join(entry, "src", "worker", "app.ts")):
+            return os.path.abspath(entry)
+    return ROOT
+
+
 def run_vitest(n):
     cmd = ["npx", "vitest", "run", "--config", "tests/acceptance/vitest.config.ts", "-t", "test_c%d_" % n]
-    p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, errors="replace", timeout=600)
+    p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, errors="replace", timeout=600,
+                       env=dict(os.environ, HR_APP_ROOT=app_root()))
     out = p.stdout + p.stderr
     if p.returncode != 0:
         lines = [ln for ln in out.splitlines() if "AssertionError" in ln or "Error" in ln or "FAIL" in ln]

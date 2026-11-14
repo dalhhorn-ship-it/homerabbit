@@ -32,8 +32,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-// POST /api/invites/accept: the field name of the token is not fixed by ADR 0013, so both likely names are sent.
-const accept = (c: Client, invite: string) => c.post("/api/invites/accept", { token: invite, inviteToken: invite });
+const accept = (c: Client, invite: string) => c.post("/api/invites/accept", { token: invite });
 
 test("test_c5_new_person_signs_up_with_invite_and_joins_household", async () => {
   const alice = await newPerson(w, "c5a");

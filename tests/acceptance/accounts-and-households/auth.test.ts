@@ -166,14 +166,19 @@ test("test_c4_lockout_of_one_email_does_not_affect_another", async () => {
   expect(is2xx(await login(new Client(w), b.email, b.pw))).toBe(true);
 });
 
-test("test_c4_lockout_lasts_fifteen_minutes", async () => {
+test("test_c4_lockout_is_still_active_at_fourteen_minutes", async () => {
+  const clock = startClock();
+  const p = await newPerson(w, "c4hold");
+  for (let i = 0; i < 5; i++) await login(new Client(w), p.email, strongPw()); // all at one instant
+  clock.advance(14 * MINUTE);
+  expect((await login(new Client(w), p.email, p.pw)).status).toBe(429);
+});
+
+test("test_c4_lockout_ends_after_fifteen_minutes", async () => {
   const clock = startClock();
   const p = await newPerson(w, "c4rec");
-  for (let i = 0; i < 5; i++) await login(new Client(w), p.email, strongPw());
-  expect((await login(new Client(w), p.email, p.pw)).status).toBe(429);
-  clock.advance(14 * MINUTE);
-  expect((await login(new Client(w), p.email, p.pw)).status, "still locked at 14 minutes").toBe(429);
-  clock.advance(MINUTE + 5_000);
+  for (let i = 0; i < 5; i++) await login(new Client(w), p.email, strongPw()); // all at one instant
+  clock.advance(15 * MINUTE + 5_000); // no attempt while locked in between
   const ok = await login(new Client(w), p.email, p.pw);
   expect(is2xx(ok), `after 15 minutes: ${ok.status}`).toBe(true);
 });

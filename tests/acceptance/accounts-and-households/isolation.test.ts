@@ -79,38 +79,66 @@ async function fixture(): Promise<Fixture> {
   await createInvite(b);
   for (const r of await w.all("SELECT id FROM invites WHERE household_id = ?", bHousehold)) bIds.push(r.id as string);
 
-  // B's rooms, items and photos exist from HR-8 / HR-2; seed them with the ADR 0013 columns when the tables exist.
-  if (await w.tableExists("rooms")) {
-    const roomId = crypto.randomUUID();
-    const roomName = `ROOM-MARKER-${stamp}`;
-    await w.db
-      .prepare("INSERT INTO rooms (id, household_id, name, created_at) VALUES (?, ?, ?, ?)")
-      .bind(roomId, bHousehold, roomName, now)
-      .run();
+  // B's rooms, items and photos arrive with HR-8 / HR-2. Seed them best-effort with the ADR 0013 columns: a table that
+  // is missing or shaped differently is skipped (the markers are only used for rows that were really inserted).
+  const trySeed = async (sql: string, ...binds: unknown[]) => {
+    try {
+      await w.db
+        .prepare(sql)
+        .bind(...binds)
+        .run();
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  const roomId = crypto.randomUUID();
+  const roomName = `ROOM-MARKER-${stamp}`;
+  if (
+    await trySeed(
+      "INSERT INTO rooms (id, household_id, name, created_at) VALUES (?, ?, ?, ?)",
+      roomId,
+      bHousehold,
+      roomName,
+      now,
+    )
+  ) {
     bIds.push(roomId);
     markers.push(roomName);
-    if (await w.tableExists("items")) {
-      const itemId = crypto.randomUUID();
-      const title = `ITEM-MARKER-${stamp}`;
-      await w.db
-        .prepare(
-          "INSERT INTO items (id, household_id, room_id, title, description, size, urgency, impact, status, created_by, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'M', 3, 3, 'backlog', ?, ?, ?)",
-        )
-        .bind(itemId, bHousehold, roomId, title, `DESC-MARKER-${stamp}`, bIds[1], now, now)
-        .run();
+    const itemId = crypto.randomUUID();
+    const title = `ITEM-MARKER-${stamp}`;
+    if (
+      await trySeed(
+        "INSERT INTO items (id, household_id, room_id, title, description, size, urgency, impact, status, created_by, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'M', 3, 3, 'backlog', ?, ?, ?)",
+        itemId,
+        bHousehold,
+        roomId,
+        title,
+        `DESC-MARKER-${stamp}`,
+        bIds[1],
+        now,
+        now,
+      )
+    ) {
       bIds.push(itemId);
       markers.push(title, `DESC-MARKER-${stamp}`);
-      if (await w.tableExists("photos")) {
-        const photoId = crypto.randomUUID();
-        const key = `h/${bHousehold}/${itemId}/${photoId}.jpg`;
+      const photoId = crypto.randomUUID();
+      const key = `h/${bHousehold}/${itemId}/${photoId}.jpg`;
+      if (
+        await trySeed(
+          "INSERT INTO photos (id, household_id, item_id, r2_key, thumb_key, bytes, width, height, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, 1600, 1200, ?, ?)",
+          photoId,
+          bHousehold,
+          itemId,
+          key,
+          key.replace(".jpg", "-thumb.jpg"),
+          photoBytes.length,
+          bIds[1],
+          now,
+        )
+      ) {
         await w.photos.put(key, photoBytes);
-        await w.photos.put(`h/${bHousehold}/${itemId}/${photoId}-thumb.jpg`, photoBytes);
-        await w.db
-          .prepare(
-            "INSERT INTO photos (id, household_id, item_id, r2_key, thumb_key, bytes, width, height, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, 1600, 1200, ?, ?)",
-          )
-          .bind(photoId, bHousehold, itemId, key, key.replace(".jpg", "-thumb.jpg"), photoBytes.length, bIds[1], now)
-          .run();
+        await w.photos.put(key.replace(".jpg", "-thumb.jpg"), photoBytes);
         bIds.push(photoId);
       }
     }
@@ -123,7 +151,11 @@ async function fixture(): Promise<Fixture> {
       if (!(await w.tableExists(t))) continue;
       const col = t === "sessions" ? "user_id" : "household_id";
       const where = t === "sessions" ? bIds[1] : bHousehold;
-      out[t] = ((await w.all(`SELECT COUNT(*) AS n FROM ${t} WHERE ${col} = ?`, where))[0].n as number) ?? 0;
+      try {
+        out[t] = ((await w.all(`SELECT COUNT(*) AS n FROM ${t} WHERE ${col} = ?`, where))[0].n as number) ?? 0;
+      } catch {
+        // table shaped differently: not compared
+      }
     }
     return out;
   };

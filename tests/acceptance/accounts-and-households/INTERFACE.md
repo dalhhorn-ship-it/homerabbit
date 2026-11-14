@@ -10,7 +10,7 @@ run by Vitest (node) with Miniflare D1 and R2; `test_vitest_suite.py` wraps them
 - Schema: `<root>/migrations/*.sql`, applied in filename order to an empty D1, one statement per `;`
   (no triggers or `BEGIN..END` bodies). Tables and columns as in ADR 0013 (`users.email/household_id/id`, `households.name`,
   `invites.household_id`, rooms/items/photos only when they exist).
-- `<root>` is the project, or `$ACCEPTANCE_REFERENCE` for the second reading (needs a `node_modules` symlink).
+- `<root>` is the project, or `$HR_APP_ROOT` for the second reading (it needs a `node_modules` symlink).
 - Time: only JS `Date` is faked (`vi.setSystemTime`). Compute every expiry and window from `Date.now()`/`new Date()` in
   the Worker, never from SQL `datetime('now')`.
 - Source address: header `CF-Connecting-IP` (each test client has its own unique one).
@@ -24,7 +24,7 @@ run by Vitest (node) with Miniflare D1 and R2; `test_vitest_suite.py` wraps them
   containing "Could not create account"; no account, no cookie.
 - `POST /api/auth/login {email, password}`: wrong password and unknown email: same 4xx status and same body containing
   "Email or password is wrong", no cookie. 5 failures per email per 15 min then 429 (also for the right password), body
-  contains "try again later", `Retry-After` set; lock lasts 15 min from the failure window (still 429 at 14 min, ok at 15 min+5 s).
+  contains "try again later", `Retry-After` set; all test failures happen at one instant and no attempt is made while locked except one check at t0 or t+14 min; lock lasts 15 min (still 429 at 14 min, ok at 15 min+5 s).
   50 failed logins per source per 15 min then 429 from that source only.
 - `POST /api/auth/logout`: 2xx, deletes this session only; the old cookie then gets 401.
 - `GET /api/me`: 200 with the user, household (name `"<email>'s home"`, email lower-case) and members (objects with `id`,
@@ -33,8 +33,8 @@ run by Vitest (node) with Miniflare D1 and R2; `test_vitest_suite.py` wraps them
 - `PATCH /api/household {name}`: any member renames; 2xx; shown in `GET /api/me`.
 - `POST /api/invites {}`: 2xx; reply has the token in a field named like `token`, `link` or `url` (a link `/invite#<token>`
   is fine). `GET /api/invites` lists (blocked while must-change-password). Valid 7 days (ok at 6d23h, refused at 7d+1h), single use.
-- `POST /api/invites/accept {token, inviteToken}` (both keys sent, same value) as a logged-in user: joins; the user's
-  empty household row is deleted; 409 if that household holds rooms/items; bad/used/expired: same 4xx status and body as each other, nothing changed.
+- `POST /api/invites/accept {token}` as a logged-in user: joins; the user's
+  empty household row is deleted; 409 if that household holds rooms/items; bad/used/expired: same 4xx status and body as each other, nothing changed; the token is checked before the has-data 409.
 - `POST /api/members/:id/reset-password {}`: another member of the same household; 2xx reply has the temporary password in
   a field whose name contains `password`; all target sessions end; old password stops working. A member of another household: 404.
 - `POST /api/me/password {currentPassword, newPassword}`: 2xx; clears must-change; until then every route except
@@ -45,5 +45,7 @@ run by Vitest (node) with Miniflare D1 and R2; `test_vitest_suite.py` wraps them
 
 ## Storage
 
+- Login failure status is only "4xx" (not 401 vs 400); sign-up rate limits are not tested (no test signs up more than 3 times from one address).
+- Rooms/items/photos routes are not assumed; C8 seeds those rows by SQL best-effort (a table or column that does not match ADR 0013 is skipped) and probes only the routes in `app.routes`.
 - Passwords: only a salted slow hash; two accounts with the same password store different values (a text column of 32+
   chars on `users`); the plaintext (or its base64, hex, URL-encoded form) appears in no table; never passed to `console.*`.

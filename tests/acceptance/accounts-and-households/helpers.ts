@@ -1,7 +1,7 @@
 // Shared harness for the accounts-and-households acceptance tests (PRD docs/specs/accounts-and-households.md).
 // It talks to the Worker only through its public surface (ADR 0013): `app.request()` over the HTTP API, the cookie
 // name, status codes and the documented D1 tables. The code under test is imported lazily so a missing feature
-// fails inside a test body. ACCEPTANCE_REFERENCE (a second-reading dir) replaces the project root when set; it needs
+// fails inside a test body. HR_APP_ROOT (a second-reading dir) replaces the project root when set; it needs
 // `src/worker/app.ts` exporting `app`, `migrations/*.sql`, and node_modules (symlink the project's).
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -10,7 +10,7 @@ import { Miniflare } from "miniflare";
 import { vi } from "vitest";
 
 export const SESSION_COOKIE = "__Host-hr_session";
-const ROOT = process.env.ACCEPTANCE_REFERENCE || process.cwd();
+const ROOT = process.env.HR_APP_ROOT || process.cwd();
 const ORIGIN = "http://localhost";
 
 let counter = 0;

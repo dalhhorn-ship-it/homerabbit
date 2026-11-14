@@ -17,6 +17,8 @@ def project_owned(rel):
 def blank_project_fields(dst):
     """Blank factory.json commands.* and acceptance.command/reference_command in the copy at dst."""
     path = os.path.join(dst, "factory.json")
+    if not os.path.isfile(path):
+        return
     with open(path, encoding="utf-8") as fh:
         f = json.load(fh)
     for k in f.get("commands", {}):

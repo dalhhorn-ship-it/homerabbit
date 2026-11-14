@@ -68,3 +68,13 @@ L (security-heavy). Foundation lane after HR-0; blocks HR-8, HR-2 and everything
 4. Should the invitee with an empty household be moved silently (recommended) or asked to confirm?
 5. Admin reset: recommend a command you run (documented in docs), not a web page.
 6. Leaving or deleting a household, and changing own password: recommend a follow-up item after two weeks of use.
+
+## Answers 2026-11-14 (by user in chat: "do it", accepting these recommendations)
+- Open questions 1–6 above: recommendations accepted with the approval.
+- A1 Duplicate sign-up shows the same neutral "Could not create account" as other sign-up errors (criterion 3 wins
+  over ADR 0013's "email already registered"); the response must not differ in status or body shape.
+- A2 After a reset to a temporary password, the next login forces choosing a new password before anything else.
+- A3 Lockout lasts 15 minutes; per source address, at most 50 failed logins per 15 minutes.
+- A4 Renaming the household is in HR-1 (route to be added to ADR 0013).
+- A5 Anonymous requests for data get 401 from the API (no hint whether the resource exists); the app shows the login page.
+- A6 Acceptance suite gets a second reading (throwaway implementation from this PRD) before admission.

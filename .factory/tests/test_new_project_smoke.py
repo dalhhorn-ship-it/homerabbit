@@ -20,6 +20,8 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, ".claude", "hooks"))
 from _common import template_mode  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, ".factory", "tests"))
+from _shape import blank_project_fields, project_owned  # noqa: E402
 
 if not template_mode(root=ROOT):
     raise unittest.SkipTest("only meaningful in the template repo itself")
@@ -46,9 +48,10 @@ class Smoke:
             cls.env.pop(k, None)
         names = subprocess.run(["git", "-C", ROOT, "ls-files", "-co", "--exclude-standard", "-z"], capture_output=True,
                                text=True, check=True).stdout.split("\0")
-        cls.names = [n for n in names if n and os.path.isfile(os.path.join(ROOT, n)) and not os.path.islink(os.path.join(ROOT, n))]
+        cls.names = [n for n in names if n and not project_owned(n) and os.path.isfile(os.path.join(ROOT, n)) and not os.path.islink(os.path.join(ROOT, n))]
         work = os.path.join(cls.tmp, "work")
         cls.copy(work)
+        blank_project_fields(work)
         sh(["git", "init", "-q"], work, cls.env, check=True)
         sh(["git", "config", "uploadpack.allowAnySHA1InWant", "true"], work, cls.env, check=True)
         sh(["git", "add", "-A"], work, cls.env, check=True)

@@ -7,7 +7,13 @@ const base = { launchOptions: executablePath ? { executablePath, args: ["--no-sa
 
 export default defineConfig({
   testDir: "tests/e2e",
-  webServer: { command: "npx vite preview --port 4173", url: "http://localhost:4173", reuseExistingServer: true },
+  // Build, apply the migrations to the local D1 (no Cloudflare account needed), then serve the built Worker + SPA.
+  webServer: {
+    command: "npx vite build && npx wrangler d1 migrations apply DB --local && npx vite preview --port 4173",
+    url: "http://localhost:4173",
+    reuseExistingServer: true,
+    timeout: 180_000,
+  },
   use: { baseURL: "http://localhost:4173" },
   projects: [
     { name: "iphone", use: { viewport: { width: 390, height: 844 }, hasTouch: true, ...base } },

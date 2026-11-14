@@ -10,6 +10,8 @@ import unittest
 from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _shape import blank_project_fields, project_owned  # noqa: E402
 HOOKS = os.path.join(ROOT, ".claude", "hooks")
 with open(os.path.join(ROOT, "factory.json"), encoding="utf-8") as _fh:
     IS_TEMPLATE = not json.load(_fh).get("project", {}).get("name")
@@ -585,14 +587,15 @@ def copy_repo(d):
     files = subprocess.run(["git", "-C", ROOT, "ls-files", "-z"], capture_output=True, text=True, check=True).stdout
     for f in (x for x in files.split("\0") if x):
         src = os.path.join(ROOT, f)
-        if not os.path.lexists(src):
-            continue  # deleted in the working tree
+        if not os.path.lexists(src) or project_owned(f):
+            continue  # deleted in the working tree, or project-owned (TD-027)
         dst = os.path.join(d, f)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         if os.path.islink(src):
             os.symlink(os.readlink(src), dst)
         else:
             shutil.copy2(src, dst)
+    blank_project_fields(d)
     url = subprocess.run(["git", "-C", ROOT, "config", "--get", "remote.origin.url"], capture_output=True, text=True).stdout.strip()
     git = ["git", "-c", "user.name=t", "-c", "user.email=t@t", "-c", "commit.gpgsign=false"]
     subprocess.run(["git", "init", "-q"], cwd=d, check=True)

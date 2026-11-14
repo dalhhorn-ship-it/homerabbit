@@ -32,6 +32,7 @@ Autonomy mode: **off** (`autonomy.enabled` false; the pack files came with the t
 
 ## Practices and habits
 - PRD gate (docs/policies/prd-approval.md): no code without an approved PRD in docs/specs/.
+- STANDING PERMISSION (user, 2026-11-14): the agent may fast-forward `main` to the verified branch head after `python3 scripts/gate.py` PASSES on that exact sha and the reviewer said `ship`. Never on a failed or flaky gate run.
 - Walking skeleton first: app live, empty board, live URL, CI green; accounts and households next (HR-1).
 - One vertical slice per backlog item; each gets a preview URL the user can open on the phone.
 - TDD for domain logic (ranking score, progress counts, overdue rule); thin component tests; a few Playwright flows.
@@ -57,7 +58,7 @@ Set in factory.json by HR-0 (when package.json exists), from ADR 0013: test `npx
 ## Deploy
 Cloudflare via git (`ship` skill), route A (dashboard Git integration), production branch `main`, preview URL per
 branch. Login: our own email + password accounts with public sign-up and households (ADR 0012 amendment,
-design in ADR 0013); secrets (session signing key) only in Cloudflare secrets, never git. Storage expected: D1 (items), R2 (photos, private). Target cost €0 (free tiers).
+design in ADR 0013); secrets (session signing key) only in Cloudflare secrets, never git. Storage: D1 only (items, and photos from HR-3; R2 needs a card on the free plan). Target cost €0 (free tiers).
 Rollback: redeploy the previous version from the Cloudflare dashboard, or revert the commit on main.
 
 ## Budgets
@@ -66,5 +67,6 @@ factory.json defaults kept: full tests ≤ 120 s, affected ≤ 30 s, push-to-liv
 ## Deviations from path defaults
 - Rigor L2 + two L3 items instead of full L3 (reason above).
 - HR-0 has no locked acceptance suite (test-writer + admission): it creates the toolchain the suite needs. Its PRD criteria are covered by the developer's e2e tests and manual checks; the locked suite starts with HR-1.
+- Acceptance suite (locked, tests/acceptance/): run `python3 scripts/acceptance.py run` (or `python3 -m unittest tests/acceptance/accounts-and-households/test_vitest_suite.py`). `factory.json` `acceptance.command` stays empty: acceptance.py then runs the `test_*.py` unittest wrappers under `tests/acceptance`, which call Vitest per criterion; gate.py runs that same command. `commands.test` excludes it. `acceptance.py baseline` is written by `test-writer` only.
 - Own authentication (user choice over Cloudflare Access): password hashing, sessions, brute-force limits and
   household isolation are ours to get right; covered by TDD, the isolation test and the pre-release security audit.

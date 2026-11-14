@@ -126,11 +126,11 @@
       "provider": "cloudflare",
       "method": "git",
       "production_branch": "main",
-      "product": "",
-      "project_name": "",
-      "production_url": "",
-      "worker_name": "",
-      "workers_subdomain": "",
+      "product": "workers",
+      "project_name": "homerabbit",
+      "production_url": "https://homerabbit.dalhhorn.workers.dev",
+      "worker_name": "homerabbit",
+      "workers_subdomain": "dalhhorn",
       "preview_url_pattern": "https://{alias}-{worker}.{subdomain}.workers.dev"
     },
     "skills": {
@@ -149,6 +149,6 @@
         "model_invocable": false
       }
     },
-    "dashboard_url": "https://claude.ai/artifact/26kZii7ybp45ynQBB47X8D"
+    "dashboard_url": "https://claude.ai/artifact/HMgesW1YdK7H9qGbGdyfnN"
   }
 }

@@ -1,5 +1,7 @@
 {
   // Production Worker. Preview is the `preview` env below (separate Worker, separate data).
+  // Database ids are not secrets (docs/RUNNING.md, "Data setup"). Production and preview must never share a resource.
+  // No R2 (free plan, no card): photos are stored in D1 (HR-3).
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "homerabbit",
   "main": "src/worker/index.ts",
@@ -9,13 +11,25 @@
     "run_worker_first": ["/api/*"]
   },
   "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "homerabbit",
+      "database_id": "41174761-74c5-4dc7-a9f1-419d6772bb24",
+      "migrations_dir": "migrations"
+    }
+  ],
   "env": {
     "preview": {
-      "name": "homerabbit-preview"
-      // HR-1 adds the preview bindings. They must never reuse production resources:
-      // "d1_databases": [{ "binding": "DB", "database_name": "homerabbit-preview", "database_id": "REPLACE_ME_PREVIEW_D1_ID" }],
-      // "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "homerabbit-photos-preview" }]
+      "name": "homerabbit-preview",
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "homerabbit-preview",
+          "database_id": "7120b60c-953e-4005-900c-b7db4c1a7fb6",
+          "migrations_dir": "migrations"
+        }
+      ]
     }
   }
-  // HR-1 adds production bindings (D1 `homerabbit`, R2 `homerabbit-photos`); D1 id placeholder: REPLACE_ME_PROD_D1_ID
 }

@@ -1,33 +1,33 @@
-# Handoff — 2026-11-14 — homerabbit: HR-0 + HR-1 PRDs approved, waiting on ADR 0013 revision, then tests + build
+# Handoff — 2026-11-14 — homerabbit: HR-0 live, HR-1 built (review fix-first), D1 ids in, fix round running
 
 ## Task
 User (PM, plain words, one recommendation) builds homerabbit: mobile/iPad web app to log home chores (text + photos),
-rooms, rank, kanban (Backlog → Design approach → Preparation → Execution → Delivered), progress by T-shirt size, owner,
-deadline. Chrome (iOS = WebKit), IBM Carbon light (g10). Later: AI plan, budget, materials, batching.
+rooms, rank, kanban, progress by T-shirt size, owner, deadline. Chrome (iOS = WebKit), IBM Carbon light (g10). Own
+email+password auth, public sign-up, a household per account, invite partner. FREE Cloudflare plan only.
 
 ## State
-- Branch claude/festive-lamport-hl0zt0. phase=build, software-product, L2 + two L3 items (security audit before
-  daily-use release; automated cross-household isolation test). Autonomy pack installed, off.
-- Login decision CHANGED (ADR 0012 amendment): own email + password, PUBLIC sign-up, each account own household,
-  partner joins by invite link, 90-day sessions, reset without email (member or admin command). Rooms = HR-8.
-- Accepted defaults: urgency/impact 1–5; editing them or size clears rank override; Delivered leaves ranked list;
-  workers.dev, no custom domain; column titles fixed.
-- PRDs APPROVED 2026-11-14 by user in chat: docs/specs/walking-skeleton.md (HR-0, `[~]`),
-  docs/specs/accounts-and-households.md (HR-1, after HR-0). HR-1 open-question recommendations accepted with approval:
-  password ≥10 chars, invite 7 days single use, lockout 5/15 min, invitee empty household removed silently, admin
-  reset = documented command.
-- software-architect running in background: revising docs/decisions/0013-stack-and-data-model.md (drop Access, own
-  auth, households, rooms; one Worker + static assets + Hono /api, Vite+React+TS+@carbon/react, D1, R2, Vitest,
-  Playwright 390×844 / 820×1180). Proposed commands: test `npx vitest run`, coverage `npx vitest run --coverage`,
-  lint `npx tsc -b --noEmit && npx biome check .`, build `npx vite build`.
+- Live: https://homerabbit.dalhhorn.workers.dev (HR-0). main = 7a3d2bc. Session env "homerabbit" allows that host.
+- STANDING PERMISSION: fast-forward main after gate PASS on that exact sha + reviewer `ship` (OPERATING-MODEL.md).
+- Dashboard artifact: https://claude.ai/artifact/HMgesW1YdK7H9qGbGdyfnN; republish dashboard/index.html after slices.
+- HR-1 built (809b198..9f44929); C1–C9 admitted + passing; validator APPROVED with caveats; reviewer FIX-FIRST.
+  D1 ids on branch (beb7c16): prod 41174761-…, preview 7120b60c-….
+- Free plan: R2 needs a card → drop R2 bindings; HR-3 photos go into D1 (resized 200–400 KB).
+- Gate FAILS protected-path: 12a52df, 2e86c88, bf998f8 have Acceptance-Change not in the LAST paragraph. Plan (told
+  user): squash HR-1 into ONE commit on top of main with trailers in the last paragraph (Refs: HR-1,
+  Acceptance-Change: accounts-and-households, Review: ship), gate it with base main, push main, merge main back.
 
 ## Next steps
-1. When architect reports: commit ADR 0013, set factory.json commands; tell the user any open questions.
-2. L2 policy: acceptance tests per approved PRD before build (test-writer → second reading → acceptance.py admit).
-3. Launch `developer` for HR-0; user connects repo in Cloudflare (Workers Builds, production branch main), sends URL.
-4. Then HR-1 `[~]` → developer. Then PRD for HR-8 rooms, HR-2…
+1. Fix-round developer (running): review 1 (explicit `--env preview`), 2 (atomic lockout), 3 (no-store), 5 (reset
+   script), 7 (must-change before /invite); drop R2; acceptance command documented/wired; TD-028 medium.
+2. Re-review → squash to main → user sets deploy commands:
+   prod `npx vite build && npx wrangler d1 migrations apply DB --remote && npx wrangler deploy`;
+   branch `npx vite build && npx wrangler d1 migrations apply DB --remote --env preview && npx wrangler versions upload --env preview`.
+   Smoke live, `python3 scripts/metrics.py deploy --env prod`, republish dashboard, tick HR-0 after device check.
+3. PRDs HR-8 rooms (TD-029: 409 guard needs rooms/items), HR-2 items. Security audit before daily use.
 
 ## Watch out
-- docs/INDEX.md is near its 3000-token budget (test_docs_first.DocBudget); budget must NOT be changed
-  (test_size pins defaults) — trim curated rows / long status lines instead.
-- After test runs: `git checkout HEAD -- metrics/history.jsonl`; check `git remote -v`. Never touch /tmp/code-sign.
+- Subagents may leave HEAD detached: check `git branch --show-current` before committing.
+- Trailers must be in the LAST paragraph of commit messages (gate reads only that).
+- Acceptance: `python3 -m unittest tests/acceptance/accounts-and-households/test_vitest_suite.py`.
+- After `acceptance.py map/admit`: `npx biome format --write tests/acceptance/manifest.json`.
+- docs/INDEX.md near 3000-token budget; never change budgets. Restore metrics/*.jsonl after test runs.

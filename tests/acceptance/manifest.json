@@ -1,0 +1,100 @@
+{
+  "admitted": {
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c1_signup_household_session": {
+      "before": "fail",
+      "criterion": "1",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c2_sessions_and_logout": {
+      "before": "fail",
+      "criterion": "2",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c3_generic_errors": {
+      "before": "fail",
+      "criterion": "3",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c4_lockout": {
+      "before": "fail",
+      "criterion": "4",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c5_invite_and_join": {
+      "before": "fail",
+      "criterion": "5",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c6_invalid_invites": {
+      "before": "fail",
+      "criterion": "6",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c7_password_reset": {
+      "before": "fail",
+      "criterion": "7",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c8_isolation": {
+      "before": "fail",
+      "criterion": "8",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    },
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c9_password_storage": {
+      "before": "fail",
+      "criterion": "9",
+      "date": "2026-11-14",
+      "prd": "accounts-and-households",
+      "reference": "second-reading",
+      "sha": "198803f"
+    }
+  },
+  "prds": {
+    "accounts-and-households": {
+      "criteria": {
+        "1": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c1_signup_household_session"],
+        "2": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c2_sessions_and_logout"],
+        "3": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c3_generic_errors"],
+        "4": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c4_lockout"],
+        "5": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c5_invite_and_join"],
+        "6": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c6_invalid_invites"],
+        "7": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c7_password_reset"],
+        "8": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c8_isolation"],
+        "9": ["accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c9_password_storage"]
+      },
+      "prd": "docs/specs/accounts-and-households.md"
+    }
+  },
+  "questions": {
+    "accounts-and-households": [
+      "C10 (real iPhone/iPad Chrome, viewports, Carbon theme, keyboard types) cannot run in this in-process suite; scripts/acceptance.py has no manual-criterion marker, so `map --strict` keeps reporting it unmapped. It needs the Playwright e2e or a manual check.",
+      "C7: the admin reset command for a one-member household (node scripts/reset-password.mjs) runs against remote D1 and is not tested in-process.",
+      "C8/C5: rooms, items and photos arrive with HR-8/HR-2; the isolation test seeds them by SQL only when those tables exist (ADR 0013 columns), and the 409 'household already holds data' case only runs when a rooms table exists.",
+      "Interface assumptions not fixed by PRD or ADR 0013 are listed in tests/acceptance/accounts-and-households/INTERFACE.md (rename route PATCH /api/household, mustChangePassword in GET /api/me, invite token location, password change body)."
+    ]
+  }
+}

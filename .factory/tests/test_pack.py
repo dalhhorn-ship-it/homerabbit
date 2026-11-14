@@ -9,6 +9,8 @@ import tempfile
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _shape import blank_project_fields, project_owned  # noqa: E402
 MANIFEST = os.path.join(ROOT, "packs", "autonomy.json")
 HAVE_PACK = os.path.isfile(MANIFEST) and all(os.path.isfile(os.path.join(ROOT, p)) for p in json.load(open(MANIFEST))["files"])
 if not HAVE_PACK:
@@ -36,9 +38,10 @@ def snapshot(dst, quick_pack_tests=False):
     names = subprocess.run(["git", "-C", ROOT, "ls-files", "-co", "--exclude-standard", "-z"], capture_output=True, text=True,
                            check=True).stdout.split("\0")
     for rel in filter(None, names):
-        if os.path.isfile(os.path.join(ROOT, rel)):
+        if os.path.isfile(os.path.join(ROOT, rel)) and not project_owned(rel):
             os.makedirs(os.path.dirname(os.path.join(dst, rel)), exist_ok=True)
             shutil.copy2(os.path.join(ROOT, rel), os.path.join(dst, rel))
+    blank_project_fields(dst)
     if quick_pack_tests:
         mp = os.path.join(dst, "packs", "autonomy.json")
         with open(mp, encoding="utf-8") as fh:

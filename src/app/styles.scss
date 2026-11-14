@@ -6,12 +6,18 @@
   $theme: themes.$g10
 );
 @use "@carbon/react/scss/reset";
+@use "@carbon/react/scss/layout";
 @use "@carbon/react/scss/type";
 @use "@carbon/react/scss/spacing" as *;
 @use "@carbon/react/scss/components/ui-shell/header";
+@use "@carbon/react/scss/components/button";
+@use "@carbon/react/scss/components/text-input";
+@use "@carbon/react/scss/components/form";
+@use "@carbon/react/scss/components/notification";
 
 :root {
   @include theme.theme();
+  @include layout.emit-layout-tokens();
 }
 
 body {
@@ -55,4 +61,93 @@ body {
   @include type.type-style("body-compact-01");
   color: theme.$text-secondary;
   margin: 0;
+}
+
+// Account screens (HR-1). Inputs are 16px so iOS does not zoom the page on focus; controls are 48px tall (>= 44px).
+input,
+.cds--text-input {
+  font-size: 1rem;
+}
+
+.hr-page {
+  padding: 4rem $spacing-05 $spacing-07;
+  max-width: 40rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.hr-loading {
+  padding: 4rem $spacing-05;
+}
+
+.hr-card {
+  background: theme.$layer-01;
+  border: 1px solid theme.$border-subtle-01;
+  padding: $spacing-05;
+}
+
+.hr-card__title {
+  @include type.type-style("heading-04");
+  margin: 0 0 $spacing-05;
+}
+
+.hr-h2 {
+  @include type.type-style("heading-03");
+  margin: $spacing-07 0 $spacing-03;
+}
+
+.hr-note {
+  @include type.type-style("body-compact-01");
+  color: theme.$text-secondary;
+  margin: 0 0 $spacing-03;
+}
+
+.hr-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-05;
+  align-items: stretch;
+}
+
+.hr-form .cds--btn,
+.hr-card > .cds--btn,
+.hr-copy .cds--btn {
+  min-height: 3rem;
+  max-width: none;
+  width: 100%;
+}
+
+.hr-header-btn.cds--btn {
+  min-height: 3rem;
+  color: theme.$text-primary;
+}
+
+.hr-members {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hr-member {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-03;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-03 0;
+  border-bottom: 1px solid theme.$border-subtle-01;
+  overflow-wrap: anywhere;
+}
+
+.hr-temp {
+  margin-top: $spacing-05;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-03;
+}
+
+.hr-copy {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-03;
 }

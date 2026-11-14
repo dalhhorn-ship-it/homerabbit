@@ -7,14 +7,11 @@ deadline. Chrome (iOS = WebKit), IBM Carbon light (g10). Own email+password auth
 account, invite partner. Later: AI plan, budget, materials, batching.
 
 ## State
-- Branch claude/festive-lamport-hl0zt0 (main on origin has only the template). L2 + two L3 items.
+- Branch claude/festive-lamport-hl0zt0 (main = 7a3d2bc, HR-0). L2 + two L3 items.
 - ADR 0013 (accepted design, status proposed) = stack + auth + data model. ADR 0012 amendment = own auth.
 - HR-0 `[~]`: built b8647f2, dfbea03, 5e6afa2; review `ship`; follow-up 7a3d2bc. Stays `[~]` until live on Cloudflare.
   factory.json commands go through scripts/app.sh (TD-027 medium: skip heuristic; a `CI` override breaks the template
   bootstrap test in CI — don't add one). e2e not in CI yet (TD-025): add with HR-1.
-- HR-1 PRD approved + answers A1–A6 (768de28). Acceptance tests TS in tests/acceptance/accounts-and-households (12a52df).
-  test-writer (resumed) is adding Python wrappers per criterion (acceptance.py only maps test*.py), aligning tests to
-  the answers, writing INTERFACE.md.
 - main = 7a3d2bc (HR-0, gate PASS). User gave STANDING PERMISSION (b): fast-forward main after gate PASS on that sha +
   review ship (in OPERATING-MODEL.md). First Cloudflare build failed (main had no app; build command likely empty) —
   asked user to set build `npm ci && npx vite build`, retry, send workers.dev URL.

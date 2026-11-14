@@ -10,6 +10,8 @@ import unittest
 from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _shape import blank_project_fields, project_owned  # noqa: E402
 HOOKS = os.path.join(ROOT, ".claude", "hooks")
 with open(os.path.join(ROOT, "factory.json"), encoding="utf-8") as _fh:
     IS_TEMPLATE = not json.load(_fh).get("project", {}).get("name")

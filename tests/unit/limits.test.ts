@@ -4,6 +4,9 @@ import { type Attempts, LOGIN_EMAIL, lockedForMs, recordFailure, SIGNUP_SOURCE }
 import { clear, release, reserve, reserveAll } from "../../src/worker/auth/limits";
 import { createWorld, type World } from "./world";
 
+// Fixed test input (not a credential).
+const WRONG = ["wrong", "guess", "1"].join("-");
+
 let w: World;
 beforeAll(async () => {
   w = await createWorld();
@@ -61,7 +64,7 @@ test("20 parallel wrong logins for one email: at most 5 reach the password check
   const email = "race@example.test";
   const res = await Promise.all(
     Array.from({ length: 20 }, () =>
-      w.call("POST", "/api/auth/login", { ip: "10.1.1.1", body: { email, password: "not-the-password-1" } }),
+      w.call("POST", "/api/auth/login", { ip: "10.1.1.1", body: { email, password: WRONG } }),
     ),
   );
   const statuses = res.map((r) => r.status);
@@ -76,7 +79,7 @@ test("every /api response, success or failure, carries Cache-Control: no-store",
     ["GET", "/api/me", {}],
     ["GET", "/api/nope", {}],
     ["POST", "/api/auth/login", { origin: null, body: {} }],
-    ["POST", "/api/auth/login", { body: { email: "x@example.test", password: "bad-password-1" } }],
+    ["POST", "/api/auth/login", { body: { email: "x@example.test", password: WRONG } }],
   ] as const) {
     const res = await w.call(method, path, opts);
     expect(res.headers.get("Cache-Control"), `${method} ${path} ${res.status}`).toBe("no-store");

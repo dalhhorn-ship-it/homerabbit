@@ -27,8 +27,9 @@
 | CLAUDE.md | 40 | Always-loaded instructions. Keep short and stable (it is… |
 | docs/BACKLOG.md | 27 | Milestones and work items; the dashboard reads this file.… |
 | docs/GOAL.md | 75 | The agreed goal for this project. Agreed with the user on… |
-| docs/OPERATING-MODEL.md | 69 | How this project is built: chosen path(s), rigor, agents,… |
-| docs/TECH-DEBT.md | 32 | Known shortcuts and their cost; the dashboard reads this… — sections: Open:7, Resolved:10 |
+| docs/OPERATING-MODEL.md | 70 | How this project is built: chosen path(s), rigor, agents,… |
+| docs/RUNNING.md | 28 | Run locally; Cloudflare setup. |
+| docs/TECH-DEBT.md | 37 | Known shortcuts and their cost; the dashboard reads this… — sections: Open:7, Resolved:15 |
 | docs/decisions/0000-template.md | 15 | Status: proposed \| accepted \| superseded by NNNN · Date:… |
 | docs/decisions/0001-use-danfactory-template.md | 12 | Status: accepted · Date: 2026-11-06 |
 | docs/decisions/0002-prd-approval-gate.md | 16 | Status: accepted · Date: 2026-11-06 |

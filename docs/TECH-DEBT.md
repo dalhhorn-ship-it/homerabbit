@@ -5,7 +5,12 @@
 Format: `- [ ] TD-NNN Title — impact: high|medium|low · effort: S|M|L · area: <area>` under **Open**; move to **Resolved** with `[x]` when paid down. A table with the header `Id | Severity | Item | Where | Size | Source | Status` is read too (severity major counts as high; a status starting with done/resolved/fixed/closed/dropped/wontfix/paid is closed; use `\|` or a code span for a literal pipe).
 
 ## Open
+- [ ] TD-024 HR-0 phone board scrolls the five columns sideways instead of ADR 0013's one-column-at-a-time Carbon Tabs (PRD UX note allows it); the Tabs/"Move to" layout lands with HR-5 — impact: low · effort: S · area: app
+- [ ] TD-025 e2e ran on emulated Chromium viewports (no WebKit installed here) and is not in CI; `vite preview` under the Cloudflare plugin tries to fetch `Request.cf` (harmless warning). Add WebKit e2e to CI or the merge step — impact: medium · effort: M · area: tests
+- [ ] TD-026 Preview deploy command (`CLOUDFLARE_ENV=preview`, versions upload) is unverified until the first branch build (ADR spike S1); tests/worker pool and Biome formatting of md/json are not set up (Biome scoped to src, tests, *.ts) — impact: low · effort: S · area: deploy
 - [ ] TD-023 docs/TECH-DEBT.md itself is over the doc budget (about 3.6k tokens, mostly Resolved entries) and the specs over it are records; it is not split because the dashboard parses this one file — impact: low · effort: S · area: docs — archive old Resolved items to a second file the dashboard also reads
+
+- [ ] TD-027 factory.json commands go through scripts/app.sh, which skips when a copy has no node_modules and no git origin, only so the template's bootstrap test (snapshot of the repo) stays green — impact: low · effort: S · area: tests — remove when the template test excludes project commands
 
 ## Resolved
 - [x] TD-020 Parallel fixers (AUTO-6) were threads in one runner process and gate evaluations were serialised by a lock (gate.py driven in-process through patched module globals); a rebased fix kept the reviewer verdict of its pre-rebase diff — impact: low · effort: M · area: runner — resolved (AUTO-8): each parallel attempt runs in its own process (`runner.py attempt --json`, scripts/runner_child.py; the parent owns budget and rows and answers the child's remaining-budget requests), so gate runs overlap and the patching lives in the child; a rebased fix gets a fresh review of the rebased diff (fix-first = `stale-after-merge`, Review trailer rewritten)

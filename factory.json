@@ -37,16 +37,16 @@
     "routing": "docs/operating-model/AGENT-ROUTING.md"
   },
   "commands": {
-    "test": "",
-    "test_affected": "",
-    "coverage": "",
-    "lint": "",
-    "build": "",
+    "test": "bash scripts/app.sh npx vitest run",
+    "test_affected": "bash scripts/app.sh npx vitest run --changed main --passWithNoTests",
+    "coverage": "bash scripts/app.sh npx vitest run --coverage",
+    "lint": "bash scripts/app.sh npm run lint",
+    "build": "bash scripts/app.sh npx vite build",
     "deploy": ""
   },
   "coverage_report": {
-    "format": "auto",
-    "file": ""
+    "format": "istanbul",
+    "file": "coverage/coverage-summary.json"
   },
   "budgets": {
     "test_seconds": 120,

@@ -9,12 +9,13 @@ Roadmap tab: item order here is the proposed sequence (numbered 1..N across both
 
 ## Milestone: M0 — Project set up (target: )
 - [x] SET-1 Goal agreed (docs/GOAL.md) #process
-- [ ] SET-2 Operating model chosen (docs/OPERATING-MODEL.md) #process
+- [x] SET-2 Operating model chosen (docs/OPERATING-MODEL.md) #process
 - [ ] SET-3 Test command and CI green (S) #quality
 
 ## Milestone: M1 — Capture, rank, kanban, progress (target: )
 > Sequence: login first (photos are private), then capture, then ranking and board, then progress. Each item needs an approved PRD before build.
-- [ ] HR-1 Login for the two household members; private by default (S) #foundation
+- [ ] HR-0 Walking skeleton: stack ADR (architect), app behind Cloudflare Access email login, empty board, live URL, CI green (M) #foundation
+- [ ] HR-1 Privacy: app verifies the Access identity, only the two allowed emails see items and photos; privacy test (S) #security
 - [ ] HR-2 Create/edit item by text with fields: title, description, T-shirt size, owner, deadline, urgency, impact (M)
 - [ ] HR-3 Photo capture: attach one or more photos from camera or gallery, private storage, works on iPhone/iPad (M)
 - [ ] HR-4 Ranked backlog: score from urgency × impact with size boost, drag to override (M)

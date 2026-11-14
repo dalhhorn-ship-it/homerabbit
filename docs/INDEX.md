@@ -28,9 +28,9 @@
 | File | Lines | Summary |
 |---|---:|---|
 | CLAUDE.md | 40 | Always-loaded instructions. Keep short and stable (it is… |
-| docs/BACKLOG.md | 25 | Milestones and work items; the dashboard reads this file.… |
+| docs/BACKLOG.md | 26 | Milestones and work items; the dashboard reads this file.… |
 | docs/GOAL.md | 63 | The agreed goal for this project. Agreed with the user on… |
-| docs/OPERATING-MODEL.md | 35 | How this project is built: chosen path(s), rigor, agents,… |
+| docs/OPERATING-MODEL.md | 70 | How this project is built: chosen path(s), rigor, agents,… |
 | docs/TECH-DEBT.md | 32 | Known shortcuts and their cost; the dashboard reads this… — sections: Open:7, Resolved:10 |
 | docs/decisions/0000-template.md | 15 | Status: proposed \| accepted \| superseded by NNNN · Date:… |
 | docs/decisions/0001-use-danfactory-template.md | 12 | Status: accepted · Date: 2026-11-06 |
@@ -44,6 +44,7 @@
 | docs/decisions/0009-fixer-runner.md | 82 | Status: accepted · Date: 2026-11-13 · PRD:… — sections: Context:5, Decision:12, Consequences:59, Implementation notes…:62, Hardening after…:72 |
 | docs/decisions/0010-release-train-parallel-fixers-learning.md | 38 | Status: accepted · Date: 2026-11-14 · PRD:… |
 | docs/decisions/0011-autonomy-pack-and-file-splits.md | 44 | Status: accepted · Date: 2026-11-14 · PRD:… |
+| docs/decisions/0012-operating-model.md | 25 | Status: accepted · Date: 2026-11-14 |
 | docs/operating-model/AGENT-ROUTING.md | 89 | Which agent gets involved when. The main agent coordinates… — sections: Principles:5, By moment:12, Verification ladder…:44, Tie-breakers…:55, Path rosters…:68, Changelog:84 |
 | docs/operating-model/DECISION-TREE.md | 78 | Picks the operating model for a goal. Version 1.3.0. Keep… |
 | docs/operating-model/LEARNINGS.md | 59 | Append-only log written by `retro`. Each entry tags… — sections: Entries:14 |

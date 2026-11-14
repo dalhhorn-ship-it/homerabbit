@@ -13,13 +13,27 @@
     "name": "homerabbit",
     "one_liner": "Private mobile/iPad web app for two people to log home chores with photos, rank them, and work through them on a kanban board with progress tracking."
   },
-  "phase": "operating-model",
+  "phase": "build",
   "paths": {
-    "primary": "",
+    "primary": "software-product",
     "secondary": []
   },
   "agents": {
-    "roster": [],
+    "roster": [
+      "product-manager",
+      "software-architect",
+      "test-writer",
+      "developer",
+      "code-writer",
+      "test-runner",
+      "reviewer",
+      "task-completion-validator",
+      "ui-comprehensive-tester",
+      "karen",
+      "deploy-watcher",
+      "doc-keeper",
+      "bulk-reader"
+    ],
     "routing": "docs/operating-model/AGENT-ROUTING.md"
   },
   "commands": {
@@ -91,7 +105,7 @@
     "learn_threshold": 3
   },
   "dashboard": {
-    "github_repo": "",
+    "github_repo": "dalhhorn-ship-it/homerabbit",
     "changelog_file": "CHANGELOG.md",
     "roadmap_view": "sequence",
     "size_days": {

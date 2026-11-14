@@ -44,8 +44,7 @@ All of docs/policies/* apply, with emphasis on prd-approval, security (credentia
 async-delivery and testing-and-metrics. Runner/issue-ledger policies are dormant (autonomy off).
 
 ## Commands
-Set in factory.json once the architect has fixed the stack (left blank until then, not guessed):
-test, test_affected, coverage, lint, build. Deploy is git-only (no deploy command).
+Set in factory.json by HR-0 (when package.json exists), from ADR 0013: test `npx vitest run`, test_affected `npx vitest run --changed main`, coverage `npx vitest run --coverage`, lint `npx tsc -b --noEmit && npx biome check .`, build `npx vite build`; e2e `npx playwright test` (outside test). Deploy is git-only (Workers Builds).
 
 ## Quality gates
 - [ ] merge gate `python3 scripts/gate.py` passes (tests, lint, protected paths, security scan; no new skips)

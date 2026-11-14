@@ -17,7 +17,9 @@ house, snap a photo, log it, then pick the next job from a ranked list.
 Software product: a mobile- and iPad-first web app (responsive, touch-friendly, camera upload).
 
 ## Constraints
-- Must work well on iPhone and iPad (Safari) and on phone-sized screens; touch-first.
+- Browser: Chrome, on iPhone, iPad and desktop; touch-first, phone-sized screens. Note: Chrome on
+  iOS/iPadOS runs on Apple's WebKit engine, so iOS web limits (camera input, home-screen install,
+  storage) apply as in Safari; test on real iOS Chrome, not only desktop Chrome.
 - Private: login-protected, only the two household members can see items and photos.
 - Assumed (unconfirmed): low running cost, about €0–5 a month for hosting and photo storage.
 - Assumed (unconfirmed): no hard deadline; aim for a usable M1 quickly.

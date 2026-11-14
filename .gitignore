@@ -1,0 +1,35 @@
+# local / generated
+.codegraph/
+.claude/settings.local.json
+.claude/.allow-large-read
+.claude/skills/security-audit/
+.claude/skills/cloudflare-deploy/
+__pycache__/
+*.pyc
+.coverage
+coverage/
+htmlcov/
+node_modules/
+.venv/
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+# security-audit output must never land in the repo unless explicitly ignored here
+security-audit-output/
+.dev.vars
+.dev.vars.*
+.wrangler/
+/dashboard/
+metrics/records.local.jsonl
+metrics/REPORT.md
+# agent worktrees (temporary, per session)
+.claude/worktrees/
+metrics/ci-runs.json
+
+# agent eval harness: raw transcripts stay local (pruned after 30 days)
+metrics/eval-transcripts/
+metrics/gate.local.jsonl
+metrics/guard.local.jsonl
+metrics/LEARN.md

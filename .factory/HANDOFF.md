@@ -6,24 +6,18 @@ rooms, rank, kanban, progress by T-shirt size, owner, deadline. Chrome (iOS = We
 email+password auth, public sign-up, a household per account, invite partner. FREE Cloudflare plan only.
 
 ## State
-- Live: https://homerabbit.dalhhorn.workers.dev (HR-0). main = 7a3d2bc. Session env "homerabbit" allows that host.
+- main = 4aa7b21 (HR-1 + TD-027 squash, gate PASS 171 s, review ship); branch merged main back (0a07389), same tree.
+- Live: https://homerabbit.dalhhorn.workers.dev (HR-0 so far). Session env "homerabbit" allows that host.
 - STANDING PERMISSION: fast-forward main after gate PASS on that exact sha + reviewer `ship` (OPERATING-MODEL.md).
 - Dashboard artifact: https://claude.ai/artifact/HMgesW1YdK7H9qGbGdyfnN; republish dashboard/index.html after slices.
-- HR-1 built (809b198..9f44929); C1–C9 admitted + passing; validator APPROVED with caveats; reviewer FIX-FIRST.
-  D1 ids on branch (beb7c16): prod 41174761-…, preview 7120b60c-….
-- Free plan: R2 needs a card → drop R2 bindings; HR-3 photos go into D1 (resized 200–400 KB).
-- Gate FAILS protected-path: 12a52df, 2e86c88, bf998f8 have Acceptance-Change not in the LAST paragraph. Plan (told
-  user): squash HR-1 into ONE commit on top of main with trailers in the last paragraph (Refs: HR-1,
-  Acceptance-Change: accounts-and-households, Review: ship), gate it with base main, push main, merge main back.
+- D1: prod homerabbit 41174761-…, preview 7120b60c-…. No R2 (free plan); HR-3 photos into D1.
+- Asked user to set Cloudflare deploy commands (prod + branch, with migrations) and retry the main build.
 
 ## Next steps
-1. Fix-round developer (running): review 1 (explicit `--env preview`), 2 (atomic lockout), 3 (no-store), 5 (reset
-   script), 7 (must-change before /invite); drop R2; acceptance command documented/wired; TD-028 medium.
-2. Re-review → squash to main → user sets deploy commands:
-   prod `npx vite build && npx wrangler d1 migrations apply DB --remote && npx wrangler deploy`;
-   branch `npx vite build && npx wrangler d1 migrations apply DB --remote --env preview && npx wrangler versions upload --env preview`.
-   Smoke live, `python3 scripts/metrics.py deploy --env prod`, republish dashboard, tick HR-0 after device check.
-3. PRDs HR-8 rooms (TD-029: 409 guard needs rooms/items), HR-2 items. Security audit before daily use.
+1. After user's build: smoke live (sign-up/login on prod), `python3 scripts/metrics.py deploy --env prod`, tick HR-1
+   and HR-0 (HR-0 after user's device check), republish dashboard; first branch build proves preview D1 (TD-026).
+2. product-manager: re-propose sequence; PRDs HR-8 rooms (TD-029: 409 guard needs rooms/items), HR-2 items.
+3. Security audit (`security-audit-run`) before daily use (L3 item).
 
 ## Watch out
 - Subagents may leave HEAD detached: check `git branch --show-current` before committing.

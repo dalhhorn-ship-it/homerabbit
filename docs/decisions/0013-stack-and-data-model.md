@@ -43,7 +43,7 @@ stripped by re-encoding; one multipart POST per photo, Worker checks JPEG magic 
 
 **Auth (all in `src/worker/auth/`):**
 - Passwords: option 1, `pbkdf2-sha256$100000$<salt16 b64>$<hash32 b64>`; the stored string carries the parameters
-  so a later rehash-on-login is possible. Constant-time compare. Rules: 10–128 chars (approved PRD HR-1; architect suggested 12, open question), no composition rules, reject
+  so a later rehash-on-login is possible. Constant-time compare. Rules: 10–128 chars (approved PRD HR-1; user kept 10 on 2026-11-14), no composition rules, reject
   a bundled list of ~1 000 common passwords and the email itself. If S6 shows free-plan CPU errors, move to Workers
   Paid ($5/month, inside budget) rather than lowering iterations.
 - Sessions: option 2 rejected; option 1 with 32 random bytes, cookie `__Host-hr_session` (HttpOnly, Secure,
@@ -127,5 +127,5 @@ Coverage: `@vitest/coverage-istanbul`, include `src/domain/**`, `src/worker/auth
   HEIC, 48 MP, orientation, canvas memory; S4 (30 min) dnd-kit drag vs scroll on iPad; S5 (30 min) istanbul across
   both pools; S6 (1 h, first) PBKDF2 100 000 CPU time on a deployed free-plan Worker, plus `__Host-` Secure cookie
   on `http://localhost` in Playwright WebKit (fallback: HTTPS dev server).
-- Open: fixed vs sliding 90-day session; min length 12 vs NIST's 15 for single-factor; sign-up without email
-  verification (spam accounts); account deletion / leaving a household not in M1.
+- Answered by user 2026-11-14: sliding 90-day session (renewed with use); min length stays 10; sign-up without
+  email verification is fine for M1; account deletion / leaving a household not in M1.

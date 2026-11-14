@@ -17,7 +17,7 @@ Traces to GOAL.md criterion 1, "Login", "Private per household". Success: you si
 
 ## Scope
 - Public sign-up page (email + password), login page, logout.
-- Sessions last 90 days per device; logout ends that device's session.
+- Sessions last 90 days per device, renewed with use (user 2026-11-14); logout ends that device's session.
 - Each sign-up creates a household named "<email>'s home"; any member can rename it.
 - Invite link: a member creates a link; whoever opens it and signs up or logs in joins that household. All members are equal.
 - Member list (email addresses) on a household page.
@@ -36,7 +36,7 @@ Traces to GOAL.md criterion 1, "Login", "Private per household". Success: you si
 
 ## Acceptance criteria
 1. Given the sign-up page, when someone submits a valid new email and a password of at least 10 characters, then an account and a household "<email>'s home" exist and they are logged in; a too-short password is refused with a clear message.
-2. Given a registered user, when they log in on a device, then they stay logged in for 90 days; after logout on that device, the next visit asks for login again and other devices stay logged in.
+2. Given a registered user, when they log in on a device, then they stay logged in for 90 days since their last use; after logout on that device, the next visit asks for login again and other devices stay logged in.
 3. Given wrong email, wrong password, or an email that already exists at sign-up, then the messages are generic ("Email or password is wrong", "Could not create account") and do not reveal whether an email is registered, including through response differences.
 4. Given repeated failed logins for one email or from one source, when a limit is reached (proposed: 5 failures in 15 minutes), then further attempts are refused temporarily with a neutral "try again later" message, also for correct passwords during the lockout.
 5. Given a member who opens "Invite", when they create a link and a second person opens it and signs up or logs in, then that person becomes a member of the inviter's household and sees the same member list; an invitee's own previously empty household is removed; if it already holds data, the join is refused with a clear message.

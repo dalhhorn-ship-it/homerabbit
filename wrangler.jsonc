@@ -1,5 +1,7 @@
 {
   // Production Worker. Preview is the `preview` env below (separate Worker, separate data).
+  // The database ids are PLACEHOLDERS: create the databases in the Cloudflare dashboard and paste the ids
+  // (docs/RUNNING.md, "Data setup"). Ids are not secrets. Production and preview must never share a resource.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "homerabbit",
   "main": "src/worker/index.ts",
@@ -9,13 +11,28 @@
     "run_worker_first": ["/api/*"]
   },
   "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "homerabbit",
+      "database_id": "REPLACE_ME_PROD_D1_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Photos arrive with HR-3; the bucket is bound now so the setup is done once. Private: no public/r2.dev access.
+  "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "homerabbit-photos" }],
   "env": {
     "preview": {
-      "name": "homerabbit-preview"
-      // HR-1 adds the preview bindings. They must never reuse production resources:
-      // "d1_databases": [{ "binding": "DB", "database_name": "homerabbit-preview", "database_id": "REPLACE_ME_PREVIEW_D1_ID" }],
-      // "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "homerabbit-photos-preview" }]
+      "name": "homerabbit-preview",
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "homerabbit-preview",
+          "database_id": "REPLACE_ME_PREVIEW_D1_ID",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "r2_buckets": [{ "binding": "PHOTOS", "bucket_name": "homerabbit-photos-preview" }]
     }
   }
-  // HR-1 adds production bindings (D1 `homerabbit`, R2 `homerabbit-photos`); D1 id placeholder: REPLACE_ME_PROD_D1_ID
 }

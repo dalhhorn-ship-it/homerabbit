@@ -126,11 +126,11 @@
       "provider": "cloudflare",
       "method": "git",
       "production_branch": "main",
-      "product": "",
-      "project_name": "",
-      "production_url": "",
-      "worker_name": "",
-      "workers_subdomain": "",
+      "product": "workers",
+      "project_name": "homerabbit",
+      "production_url": "https://homerabbit.dalhhorn.workers.dev",
+      "worker_name": "homerabbit",
+      "workers_subdomain": "dalhhorn",
       "preview_url_pattern": "https://{alias}-{worker}.{subdomain}.workers.dev"
     },
     "skills": {

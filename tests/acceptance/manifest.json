@@ -1,0 +1,22 @@
+{
+  "admitted": {},
+  "prds": {
+    "accounts-and-households": {
+      "criteria": {},
+      "prd": "docs/specs/accounts-and-households.md"
+    }
+  },
+  "questions": {
+    "accounts-and-households": [
+      "C3 vs ADR 0013: the PRD says a duplicate sign-up answers a generic 'Could not create account' that does not reveal whether the email is registered; ADR 0013 says sign-up 'must say email already registered'. The wording and any response difference for duplicate sign-up are not tested (only that it is refused and changes nothing).",
+      "C4: the PRD proposes 5 failures in 15 minutes 'for one email or from one source'; the user answer fixes it per email only. The per-source limit (ADR: 50 per IP per 15 min, sign-up 5 per IP per hour, invite accept 10 per IP) and the length of the lockout after the limit is hit are not tested; no recovery time is asserted.",
+      "C5/C6: the response shape of POST /api/invites (where the token or link appears) and the request field of POST /api/invites/accept are not fixed by the PRD or ADR; tests find the token in any token/link/url field and send both token and inviteToken.",
+      "C7: the PRD does not say how the new password is chosen after a reset (route POST /api/me/password and its body fields) nor whether it is in this slice (Non-goals say changing own password is out). Completing the change is not tested, only that the temporary password logs in and the app is gated before that.",
+      "C7: the admin reset command for a one-member household (node scripts/reset-password.mjs) runs against remote D1 and cannot be tested in-process; it is not covered.",
+      "C8: PRD says an anonymous visitor gets 'not found'; ADR 0013 says 401 without a cookie. Tests accept 401 or 404 for anonymous requests with an id in the path. For POST/PATCH with a foreign id the tests accept 404, 400 or 422 (validation may run before lookup); GET and DELETE require 404.",
+      "C8/C5: items, rooms and photos do not exist until HR-2 and HR-8, so the isolation test seeds them by SQL only when those tables exist (ADR 0013 columns), and the 'household already holds data' refusal (409) is only tested when a rooms table exists. Say whether HR-1 must ship with rooms/items tables or whether those items extend the test.",
+      "Member list and rename: ADR 0013 lists no rename route and no separate member-list route (members come in GET /api/me). Rename (a story and part of C10) has no criterion 1-9 behaviour and is not tested.",
+      "C10: real iPhone/iPad Chrome, viewports, Carbon theme and keyboard types cannot run in this in-process suite; it needs the Playwright e2e or a manual check and has no acceptance test here."
+    ]
+  }
+}

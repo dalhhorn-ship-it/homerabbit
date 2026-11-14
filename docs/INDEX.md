@@ -9,7 +9,6 @@
 |---|---|
 | What are we building and why? | docs/GOAL.md |
 | How do we work on this project? | docs/OPERATING-MODEL.md |
-| Which path fits a new goal? | docs/operating-model/DECISION-TREE.md |
 | How do I save tokens? | docs/policies/token-economy.md |
 | What are the test/deploy budgets? | factory.json -> budgets |
 | Where are we / project status? | `python3 scripts/dashboard.py --print` |
@@ -18,9 +17,7 @@
 | What shortcuts are we carrying? | docs/TECH-DEBT.md |
 | How not to wait on deploys? | docs/policies/async-delivery.md |
 | Which agent should do this? | docs/operating-model/AGENT-ROUTING.md |
-| How to bring in an existing build? | docs/operating-model/paths/adopt-existing.md |
 | Where did we stop? | .factory/HANDOFF.md (handoff skill) |
-| How do I run the evals? | docs/policies/evals.md (`python3 scripts/evals.py`) |
 <!-- curated:end -->
 
 ## Documents
@@ -45,6 +42,7 @@
 | docs/decisions/0010-release-train-parallel-fixers-learning.md | 38 | Status: accepted · Date: 2026-11-14 · PRD:… |
 | docs/decisions/0011-autonomy-pack-and-file-splits.md | 44 | Status: accepted · Date: 2026-11-14 · PRD:… |
 | docs/decisions/0012-operating-model.md | 25 | Status: accepted · Date: 2026-11-14 |
+| docs/decisions/0013-stack-and-data-model.md | 110 | Status: proposed · Date: 2026-11-14 — sections: Context:5, Options:11, Decision:28, Consequences:100 |
 | docs/operating-model/AGENT-ROUTING.md | 89 | Which agent gets involved when. The main agent coordinates… — sections: Principles:5, By moment:12, Verification ladder…:44, Tie-breakers…:55, Path rosters…:68, Changelog:84 |
 | docs/operating-model/DECISION-TREE.md | 78 | Picks the operating model for a goal. Version 1.3.0. Keep… |
 | docs/operating-model/LEARNINGS.md | 59 | Append-only log written by `retro`. Each entry tags… — sections: Entries:14 |

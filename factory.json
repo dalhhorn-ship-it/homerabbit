@@ -38,7 +38,7 @@
   },
   "commands": {
     "test": "bash scripts/app.sh npx vitest run",
-    "test_affected": "bash scripts/app.sh npx vitest run --changed main --passWithNoTests",
+    "test_affected": "bash scripts/app.sh npx vitest run --changed origin/main --passWithNoTests",
     "coverage": "bash scripts/app.sh npx vitest run --coverage",
     "lint": "bash scripts/app.sh npm run lint",
     "build": "bash scripts/app.sh npx vite build",

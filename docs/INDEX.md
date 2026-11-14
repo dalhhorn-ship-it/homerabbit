@@ -28,7 +28,7 @@
 | docs/GOAL.md | 75 | The agreed goal for this project. Agreed with the user on… |
 | docs/OPERATING-MODEL.md | 72 | How this project is built: chosen path(s), rigor, agents,… |
 | docs/RUNNING.md | 53 | Run locally; Cloudflare setup. |
-| docs/TECH-DEBT.md | 40 | Known shortcuts and their cost; the dashboard reads this… — sections: Open:7, Resolved:17 |
+| docs/TECH-DEBT.md | 40 | Known shortcuts and their cost; the dashboard reads this… — sections: Open:7, Resolved:16 |
 | docs/decisions/0000-template.md | 15 | Status: proposed \| accepted \| superseded by NNNN · Date:… |
 | docs/decisions/0001-use-danfactory-template.md | 12 | Status: accepted · Date: 2026-11-06 |
 | docs/decisions/0002-prd-approval-gate.md | 16 | Status: accepted · Date: 2026-11-06 |
@@ -45,7 +45,7 @@
 | docs/decisions/0013-stack-and-data-model.md | 141 | Status: accepted · Date: 2026-11-14 — sections: Context:6, Options:12, Decision:29, Consequences:119, Deviations:133 |
 | docs/operating-model/AGENT-ROUTING.md | 89 | Which agent gets involved when. The main agent coordinates… — sections: Principles:5, By moment:12, Verification ladder…:44, Tie-breakers…:55, Path rosters…:68, Changelog:84 |
 | docs/operating-model/DECISION-TREE.md | 78 | Picks the operating model for a goal. Version 1.3.0. Keep… |
-| docs/operating-model/LEARNINGS.md | 59 | Append-only log written by `retro`. Each entry tags… — sections: Entries:14 |
+| docs/operating-model/LEARNINGS.md | 62 | Append-only log written by `retro`. Each entry tags… — sections: Entries:14 |
 | docs/operating-model/paths/adopt-existing.md | 59 | Bringing an existing build (Lovable, Bolt, v0, or any… |
 | docs/operating-model/paths/automation-script.md | 25 | Glue code, integrations, scheduled jobs, bots, one-purpose… |
 | docs/operating-model/paths/data-spreadsheet.md | 32 | Spreadsheets, financial/data models, workbooks, CSV… |
@@ -88,6 +88,6 @@
 | docs/specs/security-hardening-audit-1.md | 82 | Status: approved · 2026-11-07 · by user in chat · Owner:… — sections: Problem:5, Goal and success…:8, Users and user stories:11, Scope:17, Non-goals:30, Acceptance criteria:37, UX / behaviour notes:53, Risks and assumptions:58, Effort and sequencing:65, Decisions at…:68, Open questions:76 |
 | docs/specs/size-monitoring.md | 49 | Status: approved · 2026-11-14 · by user in chat ("Overall… |
 | docs/specs/template-mode.md | 62 | Status: approved by user in chat 2026-11-07 · 2026-11-07 ·… |
-| docs/specs/template-tests-in-projects.md | 44 | Status: draft (awaiting user approval) · 2026-11-14 ·… |
+| docs/specs/template-tests-in-projects.md | 44 | Status: approved · 2026-11-14 · by user in chat ·… |
 | docs/specs/upstream-from-lpdan-2026-11.md | 24 | Status: approved · 2026-11-11 · by user in chat ("Ok plz… |
 | docs/specs/walking-skeleton.md | 69 | Status: approved · 2026-11-14 · by user in chat · Revised… |

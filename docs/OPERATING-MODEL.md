@@ -65,5 +65,6 @@ factory.json defaults kept: full tests ≤ 120 s, affected ≤ 30 s, push-to-liv
 
 ## Deviations from path defaults
 - Rigor L2 + two L3 items instead of full L3 (reason above).
+- HR-0 has no locked acceptance suite (test-writer + admission): it creates the toolchain the suite needs. Its PRD criteria are covered by the developer's e2e tests and manual checks; the locked suite starts with HR-1.
 - Own authentication (user choice over Cloudflare Access): password hashing, sessions, brute-force limits and
   household isolation are ours to get right; covered by TDD, the isolation test and the pre-release security audit.

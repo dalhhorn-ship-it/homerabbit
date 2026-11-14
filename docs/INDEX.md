@@ -15,7 +15,6 @@
 | What's planned / in progress? | docs/BACKLOG.md |
 | Can I start building this feature? | only with an approved PRD: docs/policies/prd-approval.md |
 | What shortcuts are we carrying? | docs/TECH-DEBT.md |
-| How not to wait on deploys? | docs/policies/async-delivery.md |
 | Which agent should do this? | docs/operating-model/AGENT-ROUTING.md |
 | Where did we stop? | .factory/HANDOFF.md (handoff skill) |
 <!-- curated:end -->

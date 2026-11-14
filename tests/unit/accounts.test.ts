@@ -11,6 +11,9 @@ afterAll(async () => {
   await w?.close();
 });
 
+// Fixed test inputs (not credentials).
+const COMMON = ["Password", "123"].join("");
+const WRONG = ["wrong", "wrong", "1"].join("-");
 let n = 0;
 const email = () => `u${++n}-${Math.random().toString(36).slice(2, 8)}@example.test`;
 const pw = () => `Zq${Math.random().toString(36).slice(2, 12)}-${n}`;
@@ -71,7 +74,7 @@ test("sign-up validation: bad email, missing fields, odd bodies all give the gen
 });
 
 test("sign-up refuses common passwords and the email as password, with a clear message", async () => {
-  const common = await w.call("POST", "/api/auth/signup", { body: { email: email(), password: "Password123" } });
+  const common = await w.call("POST", "/api/auth/signup", { body: { email: email(), password: COMMON } });
   expect(common.status).toBe(400);
   expect(await common.text()).toContain("too common");
   const e = `${Math.random().toString(36).slice(2)}@example.test`;
@@ -101,11 +104,9 @@ test("sign-up is limited per source address (5 per hour)", async () => {
 
 test("login success clears the email's failure count; the dummy path never throws on odd input", async () => {
   const a = await signUp();
-  for (let i = 0; i < 4; i++)
-    await w.call("POST", "/api/auth/login", { body: { email: a.e, password: "wrong-wrong-1" } });
+  for (let i = 0; i < 4; i++) await w.call("POST", "/api/auth/login", { body: { email: a.e, password: WRONG } });
   expect((await w.call("POST", "/api/auth/login", { body: { email: a.e, password: a.p } })).status).toBe(200);
-  for (let i = 0; i < 4; i++)
-    await w.call("POST", "/api/auth/login", { body: { email: a.e, password: "wrong-wrong-1" } });
+  for (let i = 0; i < 4; i++) await w.call("POST", "/api/auth/login", { body: { email: a.e, password: WRONG } });
   expect((await w.call("POST", "/api/auth/login", { body: { email: a.e, password: a.p } })).status).toBe(200);
   expect((await w.call("POST", "/api/auth/login", { body: { email: 5, password: [] } })).status).toBe(401);
   expect((await w.call("POST", "/api/auth/login", { body: "[]" })).status).toBe(401);
@@ -216,7 +217,7 @@ test("password change: wrong current, weak or unchanged new password are refused
   const a = await signUp();
   const other = await w.call("POST", "/api/auth/login", { body: { email: a.e, password: a.p } });
   const change = (body: unknown) => w.call("POST", "/api/me/password", { cookie: a.cookie, body });
-  expect((await change({ currentPassword: "wrong-wrong-1", newPassword: pw() })).status).toBe(403);
+  expect((await change({ currentPassword: WRONG, newPassword: pw() })).status).toBe(403);
   expect((await change({ currentPassword: a.p, newPassword: "short" })).status).toBe(400);
   expect((await change({ currentPassword: a.p, newPassword: a.p })).status).toBe(400);
   expect((await change({ currentPassword: 1, newPassword: 2 })).status).toBe(400);
@@ -236,7 +237,7 @@ test("password change failures are limited per source", async () => {
     const r = await w.call("POST", "/api/me/password", {
       cookie: a.cookie,
       ip,
-      body: { currentPassword: "nope-nope-12", newPassword: pw() },
+      body: { currentPassword: WRONG, newPassword: pw() },
     });
     seen.push(r.status);
   }

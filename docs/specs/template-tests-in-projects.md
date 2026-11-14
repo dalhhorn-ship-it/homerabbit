@@ -1,6 +1,6 @@
 # PRD: Template self-test that works inside a real project
 
-> Status: draft (awaiting user approval) · 2026-11-14 · Owner: product-manager · Backlog: M1 / TD-027
+> Status: approved · 2026-11-14 · by user in chat · 2026-11-14 · Owner: product-manager · Backlog: M1 / TD-027
 
 ## Problem
 The factory template tests itself by copying the whole repo as if it were the template, creating a fresh demo project from it, and checking that `check.sh` and the gate pass. In homerabbit that copy also carries project-owned things: the app commands in factory.json, the locked accounts-and-households acceptance tests, and soon the HR-1 acceptance baseline. The copy has no Node dependencies, so these cannot run and the self-test fails. Today a workaround makes `scripts/app.sh` silently skip app commands (exit 0) in such copies. Review rated this medium risk: a copy can report tests, lint and build green without running any. Recording the HR-1 baseline would break the self-test and block shipping HR-1.

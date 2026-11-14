@@ -29,7 +29,7 @@
 |---|---:|---|
 | CLAUDE.md | 40 | Always-loaded instructions. Keep short and stable (it is… |
 | docs/BACKLOG.md | 67 | Milestones and work items; the dashboard reads this file.… — sections: Milestone: M0 —…:10, Milestone: M1 —…:15, Milestone: M2 —…:22, Milestone: M3 —…:30, Unplanned:40 |
-| docs/GOAL.md | 30 | The agreed goal for this project. Written by the… |
+| docs/GOAL.md | 60 | The agreed goal for this project. Agreed with the user on… |
 | docs/OPERATING-MODEL.md | 35 | How this project is built: chosen path(s), rigor, agents,… |
 | docs/TECH-DEBT.md | 32 | Known shortcuts and their cost; the dashboard reads this… — sections: Open:7, Resolved:10 |
 | docs/decisions/0000-template.md | 15 | Status: proposed \| accepted \| superseded by NNNN · Date:… |

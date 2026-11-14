@@ -10,10 +10,10 @@
     "autonomy": true
   },
   "project": {
-    "name": "",
-    "one_liner": ""
+    "name": "homerabbit",
+    "one_liner": "Private mobile/iPad web app for two people to log home chores with photos, rank them, and work through them on a kanban board with progress tracking."
   },
-  "phase": "brainstorm",
+  "phase": "operating-model",
   "paths": {
     "primary": "",
     "secondary": []
@@ -55,10 +55,15 @@
   },
   "gate": {
     "base_branch": "main",
-    "protected": ["tests/acceptance/**"],
+    "protected": [
+      "tests/acceptance/**"
+    ],
     "review": "advisory",
     "prd": "advisory",
-    "security_ignore": [".factory/tests/**", "evals/**"]
+    "security_ignore": [
+      ".factory/tests/**",
+      "evals/**"
+    ]
   },
   "acceptance": {
     "dir": "tests/acceptance",
@@ -89,9 +94,16 @@
     "github_repo": "",
     "changelog_file": "CHANGELOG.md",
     "roadmap_view": "sequence",
-    "size_days": {"S": 1, "M": 3, "L": 8},
+    "size_days": {
+      "S": 1,
+      "M": 3,
+      "L": 8
+    },
     "wip": 1,
-    "prod_envs": ["prod", "production"],
+    "prod_envs": [
+      "prod",
+      "production"
+    ],
     "hotspot_commits": 500
   },
   "integrations": {

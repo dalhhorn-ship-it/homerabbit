@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-14",
+  "passing": [
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c1_signup_household_session",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c2_sessions_and_logout",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c3_generic_errors",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c4_lockout",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c5_invite_and_join",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c6_invalid_invites",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c7_password_reset",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c8_isolation",
+    "accounts-and-households/test_vitest_suite::AccountsAndHouseholds.test_c9_password_storage"
+  ],
+  "sha": "7a3d2bc"
+}

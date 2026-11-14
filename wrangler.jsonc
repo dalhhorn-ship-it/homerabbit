@@ -28,7 +28,7 @@
         {
           "binding": "DB",
           "database_name": "homerabbit-preview",
-          "database_id": "REPLACE_ME_PREVIEW_D1_ID",
+          "database_id": "7120b60c-953e-4005-900c-b7db4c1a7fb6",
           "migrations_dir": "migrations"
         }
       ],

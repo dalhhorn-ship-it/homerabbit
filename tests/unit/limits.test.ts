@@ -73,6 +73,18 @@ test("20 parallel wrong logins for one email: at most 5 reach the password check
   expect(statuses.every((s) => s === 401 || s === 429)).toBe(true);
 });
 
+test("a successful login does not reset the per-source counter (no spraying with a throwaway account)", async () => {
+  const ip = "10.2.2.2";
+  const own = { email: "own@example.test", password: ["Zq", "own", "acct", "77"].join("-") };
+  expect((await w.call("POST", "/api/auth/signup", { ip: "10.9.9.9", body: { ...own, displayName: "A" } })).status).toBe(201);
+  const statuses: number[] = [];
+  for (let i = 0; i < 30; i++) {
+    statuses.push((await w.call("POST", "/api/auth/login", { ip, body: { email: `v${i}@example.test`, password: WRONG } })).status);
+    statuses.push((await w.call("POST", "/api/auth/login", { ip, body: own })).status);
+  }
+  expect(statuses.slice(-4)).toContain(429);
+});
+
 test("every /api response, success or failure, carries Cache-Control: no-store", async () => {
   for (const [method, path, opts] of [
     ["GET", "/api/health", {}],

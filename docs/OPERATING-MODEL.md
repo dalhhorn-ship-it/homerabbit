@@ -58,7 +58,7 @@ Set in factory.json by HR-0 (when package.json exists), from ADR 0013: test `npx
 ## Deploy
 Cloudflare via git (`ship` skill), route A (dashboard Git integration), production branch `main`, preview URL per
 branch. Login: our own email + password accounts with public sign-up and households (ADR 0012 amendment,
-design in ADR 0013); secrets (session signing key) only in Cloudflare secrets, never git. Storage expected: D1 (items), R2 (photos, private). Target cost €0 (free tiers).
+design in ADR 0013); secrets (session signing key) only in Cloudflare secrets, never git. Storage: D1 only (items, and photos from HR-3; R2 needs a card on the free plan). Target cost €0 (free tiers).
 Rollback: redeploy the previous version from the Cloudflare dashboard, or revert the commit on main.
 
 ## Budgets

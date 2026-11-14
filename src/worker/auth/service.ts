@@ -123,7 +123,7 @@ export function createAuthService(db: D1) {
       const good = await verifyPassword(password.slice(0, 1024), user?.password_hash ?? DUMMY_HASH);
       if (!user || !good) return fail(401, MSG.login); // the attempt is already counted
       await limits.clear(db, keys[0]);
-      await limits.release(db, keys[1]);
+      // keys[1] (per source) is NOT released on success: a throwaway account could otherwise reset it (review HR-1)
       return {
         ok: true,
         token: await startSession(user.id),

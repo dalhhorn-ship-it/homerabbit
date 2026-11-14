@@ -1,6 +1,6 @@
 # PRD: Accounts and households
 
-> Status: draft, awaiting user approval · 2026-11-14 · Owner: product-manager · Backlog: M1 / HR-1
+> Status: approved · 2026-11-14 · by user in chat · 2026-11-14 · Owner: product-manager · Backlog: M1 / HR-1
 
 ## Problem
 The app will hold photos of the inside of homes and will be on the public internet with open sign-up. Nothing can be stored until we know who is using it and can guarantee that one household never sees another's data. You and your partner need to share one household without a shared login.

@@ -42,7 +42,7 @@
 | docs/decisions/0010-release-train-parallel-fixers-learning.md | 38 | Status: accepted · Date: 2026-11-14 · PRD:… |
 | docs/decisions/0011-autonomy-pack-and-file-splits.md | 44 | Status: accepted · Date: 2026-11-14 · PRD:… |
 | docs/decisions/0012-operating-model.md | 33 | Status: accepted · Date: 2026-11-14 |
-| docs/decisions/0013-stack-and-data-model.md | 110 | Status: proposed · Date: 2026-11-14 — sections: Context:5, Options:11, Decision:28, Consequences:100 |
+| docs/decisions/0013-stack-and-data-model.md | 131 | Status: proposed · Date: 2026-11-14 — sections: Context:5, Options:11, Decision:28, Consequences:119 |
 | docs/operating-model/AGENT-ROUTING.md | 89 | Which agent gets involved when. The main agent coordinates… — sections: Principles:5, By moment:12, Verification ladder…:44, Tie-breakers…:55, Path rosters…:68, Changelog:84 |
 | docs/operating-model/DECISION-TREE.md | 78 | Picks the operating model for a goal. Version 1.3.0. Keep… |
 | docs/operating-model/LEARNINGS.md | 59 | Append-only log written by `retro`. Each entry tags… — sections: Entries:14 |
@@ -70,7 +70,7 @@
 | docs/policies/testing-and-metrics.md | 28 | Fast feedback is a feature. Measure test time, coverage,… |
 | docs/policies/token-economy.md | 35 | Spend tokens on decisions, not on moving bytes. Adapted… |
 | docs/specs/_TEMPLATE.md | 33 | Status: draft \| approved · YYYY-MM-DD · by user in chat \|… |
-| docs/specs/accounts-and-households.md | 70 | Status: draft, awaiting user approval · 2026-11-14 ·… — sections: Problem:5, Goal and success…:8, Users and user stories:11, Scope:18, Non-goals:30, Acceptance criteria:37, UX / behaviour notes:49, Risks and assumptions:55, Effort and sequencing:61, Open questions:64 |
+| docs/specs/accounts-and-households.md | 70 | Status: approved · 2026-11-14 · by user in chat ·… — sections: Problem:5, Goal and success…:8, Users and user stories:11, Scope:18, Non-goals:30, Acceptance criteria:37, UX / behaviour notes:49, Risks and assumptions:55, Effort and sequencing:61, Open questions:64 |
 | docs/specs/agent-eval-harness.md | 104 | Status: approved · 2026-11-11 · by user in chat · Owner:… — sections: Problem:5, Goal and success…:8, Users and user stories:11, Scope:18, Non-goals:41, Acceptance criteria:50, UX / behaviour notes:65, Risks and assumptions:71, Effort and sequencing:80, Open questions:86, Decisions (user,…:94, Spike findings…:98 |
 | docs/specs/auto-compact-handoff-loop.md | 76 | Status: approved · 2026-11-07 · by user in chat · Owner:… — sections: Problem:5, Goal and success…:8, Users and user stories:11, Scope:16, Non-goals:24, Acceptance criteria:30, UX / behaviour notes:44, Risks and assumptions:49, Effort and sequencing:55, Decisions (user,…:66, Open questions…:72 |
 | docs/specs/dashboard-carbon-design.md | 82 | Status: approved · 2026-11-11 · by user in chat · Owner:… — sections: Problem:5, Goal and success…:8, Users and user stories:11, Scope:17, Non-goals:28, Acceptance criteria:36, UX / behaviour notes:51, Risks and assumptions:59, Effort and sequencing:68, Open questions:74, Decisions (user,…:80 |
@@ -89,4 +89,4 @@
 | docs/specs/size-monitoring.md | 49 | Status: approved · 2026-11-14 · by user in chat ("Overall… |
 | docs/specs/template-mode.md | 62 | Status: approved by user in chat 2026-11-07 · 2026-11-07 ·… |
 | docs/specs/upstream-from-lpdan-2026-11.md | 24 | Status: approved · 2026-11-11 · by user in chat ("Ok plz… |
-| docs/specs/walking-skeleton.md | 69 | Status: draft, awaiting user approval · Revised 2026-11-14… |
+| docs/specs/walking-skeleton.md | 69 | Status: approved · 2026-11-14 · by user in chat · Revised… |

@@ -1,6 +1,6 @@
 # PRD: Walking skeleton (live app, empty board, CI)
 
-> Status: draft, awaiting user approval · Revised 2026-11-14 (Access dropped) · Owner: product-manager · Backlog: M1 / HR-0 (also covers M0 / SET-3)
+> Status: approved · 2026-11-14 · by user in chat · Revised 2026-11-14 (Access dropped) · Owner: product-manager · Backlog: M1 / HR-0 (also covers M0 / SET-3)
 
 ## Problem
 There is no app yet. Every later item (accounts, items, photos, ranking, board moves) needs a place to live: a public address, a page with the right look, and an automatic check that nothing breaks. Building that thin end-to-end slice first removes the biggest unknowns (hosting, deploy flow, iPhone/iPad behaviour) before we invest in features.

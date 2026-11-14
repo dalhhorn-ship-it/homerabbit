@@ -1,4 +1,4 @@
-# Handoff — 2026-11-14 — homerabbit: HR-0 built (review ship), HR-1 acceptance suite being finalised
+# Handoff — 2026-11-14 — homerabbit: HR-0 on main, HR-1 tests admitted, HR-1 build running
 
 ## Task
 User (PM, plain words, one recommendation) builds homerabbit: mobile/iPad web app to log home chores (text + photos),
@@ -15,15 +15,18 @@ account, invite partner. Later: AI plan, budget, materials, batching.
 - HR-1 PRD approved + answers A1–A6 (768de28). Acceptance tests TS in tests/acceptance/accounts-and-households (12a52df).
   test-writer (resumed) is adding Python wrappers per criterion (acceptance.py only maps test*.py), aligning tests to
   the answers, writing INTERFACE.md.
-- WAITING ON USER: Cloudflare repo connect steps (in docs/RUNNING.md) + workers.dev URL; choice (a) PR they merge
-  (recommended) or (b) standing permission to update main.
+- main = 7a3d2bc (HR-0, gate PASS). User gave STANDING PERMISSION (b): fast-forward main after gate PASS on that sha +
+  review ship (in OPERATING-MODEL.md). First Cloudflare build failed (main had no app; build command likely empty) —
+  asked user to set build `npm ci && npx vite build`, retry, send workers.dev URL.
+- HR-1 acceptance C1–C9 ADMITTED (bf998f8) via second reading in scratchpad/hr1-ref; wrappers pass HR_APP_ROOT.
+  C10 manual (no manual marker in acceptance.py). Run `npx biome format --write tests/acceptance/manifest.json` after
+  map/admit. C8 seeding is best-effort: check it really seeds once rooms/items exist (HR-8/HR-2).
+  Gate on branch head failed protected-path: 12a52df lacks an Acceptance-Change trailer.
+- HR-1 `[~]`, developer running.
 
 ## Next steps
-1. When test-writer reports: second reading = fresh `developer` builds a throwaway HR-1 from PRD + INTERFACE.md in a
-   scratch dir; then `python3 scripts/acceptance.py admit accounts-and-households --reference-dir DIR`; set
-   factory.json acceptance.command; commit.
-2. Mark HR-1 `[~]`; launch `developer` for HR-1 (also: add rename route to ADR 0013, e2e in CI, miniflare devDep).
-3. Then PRD for HR-8 rooms, HR-2 items.
+1. When HR-1 developer reports: gate, reviewer, ui tester; fast-forward main on PASS; deploy-watcher once URL known.
+2. User creates D1/R2 in Cloudflare for HR-1 (developer documents IDs/steps). Then PRDs for HR-8 rooms, HR-2 items.
 
 ## Watch out
 - docs/INDEX.md near 3000-token budget; don't change budgets (test_size pins defaults) — trim curated rows instead.

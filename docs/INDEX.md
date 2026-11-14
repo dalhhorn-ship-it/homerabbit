@@ -90,3 +90,4 @@
 | docs/specs/size-monitoring.md | 49 | Status: approved · 2026-11-14 · by user in chat ("Overall… |
 | docs/specs/template-mode.md | 62 | Status: approved by user in chat 2026-11-07 · 2026-11-07 ·… |
 | docs/specs/upstream-from-lpdan-2026-11.md | 24 | Status: approved · 2026-11-11 · by user in chat ("Ok plz… |
+| docs/specs/walking-skeleton.md | 70 | Status: draft, awaiting user approval · Owner:… — sections: Problem:5, Goal and success…:8, Users and user stories:12, Scope:18, What you must do…:26, Non-goals:33, Acceptance criteria:39, UX / behaviour notes:51, Risks and assumptions:57, Effort and sequencing:63, Open questions:66 |

@@ -20,6 +20,7 @@ Software product: a mobile- and iPad-first web app (responsive, touch-friendly, 
 - Browser: Chrome, on iPhone, iPad and desktop; touch-first, phone-sized screens. Note: Chrome on
   iOS/iPadOS runs on Apple's WebKit engine, so iOS web limits (camera input, home-screen install,
   storage) apply as in Safari; test on real iOS Chrome, not only desktop Chrome.
+- Visual design: IBM Carbon Design System, light theme (Carbon "White" or "Gray 10"); dark mode not required for M1.
 - Private: login-protected, only the two household members can see items and photos.
 - Assumed (unconfirmed): low running cost, about €0–5 a month for hosting and photo storage.
 - Assumed (unconfirmed): no hard deadline; aim for a usable M1 quickly.

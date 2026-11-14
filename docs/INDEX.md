@@ -16,7 +16,6 @@
 | Can I start building this feature? | only with an approved PRD: docs/policies/prd-approval.md |
 | What shortcuts are we carrying? | docs/TECH-DEBT.md |
 | Which agent should do this? | docs/operating-model/AGENT-ROUTING.md |
-| Where did we stop? | .factory/HANDOFF.md (handoff skill) |
 <!-- curated:end -->
 
 ## Documents
